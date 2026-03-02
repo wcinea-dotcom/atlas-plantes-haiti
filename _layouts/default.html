@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ page.lang | default: 'fr' }}">
+<html lang="{{ page.lang | default: site.lang | default: 'fr' }}">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -11,21 +11,17 @@
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- Tailwind (si tu le gardes) -->
+  <!-- Tailwind CDN (à garder seulement si tu utilises les classes Tailwind) -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body>
   {% include header.html %}
+
   <main>
     {{ content }}
   </main>
-  {% include footer.html %}
 
-  {%- comment -%}
-  IMPORTANT:
-  Si _includes/modal.html n'existe pas, ça casse Netlify.
-  {%- endcomment -%}
+  {% include footer.html %}
   {% include modal.html %}
 
   <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
