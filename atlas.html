@@ -1,0 +1,71 @@
+---
+layout: default
+title: "Base de données des Plantes"
+permalink: /atlas/
+---
+
+<section class="bg-[#1e4028] text-white py-12 px-4 relative overflow-hidden">
+  <div class="max-w-6xl mx-auto relative z-10 text-center">
+    <span class="inline-block py-1 px-4 rounded-full bg-[#c5a059] text-[#1e4028] text-sm font-bold mb-4 tracking-wide shadow-lg">
+      <i class="fa-solid fa-leaf mr-1"></i> <span data-i18n="hero_tag">260+ Plantes Documentées</span>
+    </span>
+    <h1 class="text-3xl md:text-5xl font-black mb-4" data-i18n="nav_data">Base de données</h1>
+    <p class="text-lg max-w-3xl mx-auto opacity-90" data-i18n="hero_desc">Explorez la richesse de la flore médicinale, aromatique et nutritionnelle du Grand Sud.</p>
+  </div>
+</section>
+
+<section id="data-hub" class="bg-[#e8f5e9] py-8 px-4 border-b border-gray-200">
+  <div class="max-w-6xl mx-auto">
+    <div class="bg-white p-6 rounded-2xl shadow-xl flex flex-col md:flex-row gap-4 items-center border border-gray-100">
+      
+      <div class="relative w-full md:w-1/4">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        <input type="text" id="searchInput"
+               class="block w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none transition"
+               data-i18n-placeholder="search_ph" placeholder="Rechercher une plante...">
+      </div>
+
+      <select id="filterFamille" class="w-full md:w-1/5 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none bg-white">
+        <option value="" data-i18n="opt_fam">Toutes les familles</option>
+        <option value="Acanthaceae">Acanthaceae</option>
+        <option value="Asteraceae">Asteraceae</option>
+        <option value="Cucurbitaceae">Cucurbitaceae</option>
+        <option value="Euphorbiaceae">Euphorbiaceae</option>
+        <option value="Fabaceae">Fabaceae</option>
+        <option value="Lamiaceae">Lamiaceae</option>
+        <option value="Rutaceae">Rutaceae</option>
+        <option value="Solanaceae">Solanaceae</option>
+      </select>
+
+      <select id="filterSysteme" class="w-full md:w-1/5 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none bg-white">
+        <option value="" data-i18n="opt_sys">Tous les systèmes</option>
+        <option value="Nerveux" data-i18n="opt_sys_ner">Nerveux</option>
+        <option value="Digestif" data-i18n="opt_sys_dig">Digestif</option>
+        <option value="Cardiovasculaire" data-i18n="opt_sys_card">Cardiovasculaire</option>
+        <option value="Respiratoire" data-i18n="opt_sys_res">Respiratoire</option>
+        <option value="Immunitaire" data-i18n="opt_sys_imm">Immunitaire</option>
+      </select>
+
+      <select id="filterMaladie" class="w-full md:w-1/5 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none bg-white">
+        <option value="" data-i18n="opt_mal">Toutes les maladies</option>
+        <option value="Diabète" data-i18n="opt_mal_dia">Diabète</option>
+        <option value="Hypertension" data-i18n="opt_mal_hyp">Hypertension</option>
+        <option value="Paludisme" data-i18n="opt_mal_mal">Paludisme</option>
+        <option value="Infections" data-i18n="opt_mal_inf">Infections</option>
+      </select>
+
+      <button onclick="resetFilters()" class="w-full md:w-auto px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition flex items-center justify-center gap-2" type="button">
+        <i class="fa-solid fa-rotate-right"></i> <span data-i18n="btn_reset">Réinitialiser</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 px-4 max-w-7xl mx-auto bg-gray-50 flex-grow">
+  <div class="flex justify-between items-center mb-6">
+    <h3 class="text-2xl font-bold text-gray-800" data-i18n="res_title">🌿 Plantes Médicinales</h3>
+    <span id="resultCount" class="bg-[#e8f5e9] border border-[#2c5e3b] text-[#2c5e3b] px-4 py-2 rounded-full text-sm font-bold">0</span>
+  </div>
+  
+  <div id="resultatsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 min-h-[400px]"></div>
+</section>
