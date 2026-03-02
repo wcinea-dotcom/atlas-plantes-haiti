@@ -1,16 +1,15 @@
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
 
-<!-- Tailwind (ok si tu utilises les classes Tailwind dans le HTML) -->
+<!-- Tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
+
+<!-- CSS personnalisé -->
+<link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
 
 <!-- FontAwesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <!-- Google Fonts -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap">
-
-<!-- ✅ TON CSS (c’est ça qui manque) -->
-<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
