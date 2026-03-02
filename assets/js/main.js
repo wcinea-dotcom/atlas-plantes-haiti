@@ -1,10 +1,63 @@
 // ============================================
-// VARIABLES GLOBALES
+// VARIABLES GLOBALES & TRADUCTION
 // ============================================
-// Détection de la langue courante depuis l'URL
-const currentLang = window.location.pathname.split('/')[1] || 'fr';
+// Détection de la langue par défaut
+let currentLang = window.location.pathname.split('/')[1] || 'fr';
+if (currentLang !== 'fr' && currentLang !== 'en' && currentLang !== 'ht') {
+    currentLang = 'fr'; // Fallback to French
+}
 
-// Éléments DOM
+// ============================================
+// FONCTION DE TRADUCTION GLOBALE (NOUVEAU)
+// ============================================
+function applyTranslations(lang) {
+    currentLang = lang;
+    const texts = i18n[lang];
+
+    if (!texts) return;
+
+    // 1. Update text content
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (texts[key]) {
+            el.textContent = texts[key];
+        }
+    });
+
+    // 2. Update placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (texts[key]) {
+            el.placeholder = texts[key];
+        }
+    });
+
+    // 3. Update Active Button Styling (Desktop Language Switcher)
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (btn.getAttribute('data-lang') === lang) {
+            btn.classList.add('bg-[#c5a059]', 'text-[#1e4028]');
+            btn.classList.remove('hover:bg-[#c5a059]/20');
+        } else {
+            btn.classList.remove('bg-[#c5a059]', 'text-[#1e4028]');
+            btn.classList.add('hover:bg-[#c5a059]/20');
+        }
+    });
+
+    // 4. Sync the Mobile Select Dropdown
+    const mobileSelect = document.getElementById('mobileLang');
+    if (mobileSelect) {
+        mobileSelect.value = lang;
+    }
+
+    // 5. REFRESH GRIDS TO SHOW NEW LANGUAGE
+    filtrerDonnees();
+    filtrerRessources();
+}
+
+
+// ============================================
+// ÉLÉMENTS DOM
+// ============================================
 const grid = document.getElementById('resultatsGrid');
 const searchInput = document.getElementById('searchInput');
 const filterFamille = document.getElementById('filterFamille');
@@ -14,6 +67,7 @@ const resultCount = document.getElementById('resultCount');
 const gridRes = document.getElementById('ressourcesGrid');
 const searchResInput = document.getElementById('searchResInput');
 const filterResType = document.getElementById('filterResType');
+
 
 // ============================================
 // FONCTIONS UTILITAIRES
@@ -29,6 +83,7 @@ function getStatusColor(statut) {
         return 'bg-purple-100 text-purple-800 border-purple-300';
     return 'bg-gray-100 text-gray-800 border-gray-300';
 }
+
 
 // ============================================
 // AFFICHAGE DES PLANTES
@@ -47,11 +102,11 @@ function afficherPlantes(plantes) {
         grid.innerHTML = `<div class="col-span-full text-center py-12 bg-white rounded-xl border border-gray-200">
             <p class="text-gray-500">${emptyMsg[currentLang]}</p>
         </div>`;
-        resultCount.textContent = '0';
+        if (resultCount) resultCount.textContent = '0';
         return;
     }
 
-    resultCount.textContent = plantes.length;
+    if (resultCount) resultCount.textContent = plantes.length;
 
     plantes.forEach(plante => {
         const carte = document.createElement('div');
@@ -85,6 +140,8 @@ function afficherPlantes(plantes) {
 }
 
 function filtrerDonnees() {
+    if (!searchInput) return;
+
     const terme = searchInput.value.toLowerCase();
     const famille = filterFamille.value;
     const systeme = filterSysteme.value;
@@ -93,7 +150,7 @@ function filtrerDonnees() {
         const matchTexte = plante.nomScientifique.toLowerCase().includes(terme) || 
                            plante.nomCommun[currentLang].toLowerCase().includes(terme);
         const matchFamille = famille === "" || plante.famille === famille;
-        const matchSysteme = systeme === "" || plante.systeme.fr.includes(systeme);
+        const matchSysteme = systeme === "" || plante.systeme.fr.includes(systeme); // Checks 'fr' because HTML option values are in French
         return matchTexte && matchFamille && matchSysteme;
     });
 
@@ -101,12 +158,13 @@ function filtrerDonnees() {
 }
 
 function resetFilters() {
-    searchInput.value = '';
-    filterFamille.value = '';
-    filterSysteme.value = '';
-    filterMaladie.value = '';
+    if (searchInput) searchInput.value = '';
+    if (filterFamille) filterFamille.value = '';
+    if (filterSysteme) filterSysteme.value = '';
+    if (filterMaladie) filterMaladie.value = '';
     afficherPlantes(plantesData);
 }
+
 
 // ============================================
 // AFFICHAGE DES RESSOURCES
@@ -144,7 +202,7 @@ function afficherRessources(ressources) {
                 <span class="text-xs font-bold uppercase text-[#2c5e3b] border border-[#2c5e3b] px-2 py-1 rounded-full">${res.type}</span>
             </div>
             <h3 class="text-lg font-bold text-gray-800 mb-2">${res.titre[currentLang]}</h3>
-            <p class="text-sm text-gray-500 mb-4">${res.auteur} • ${res.annee}</p>
+            <p class="text-sm text-gray-500 mb-4">${res.auteur || ''} ${res.annee ? '• ' + res.annee : ''}</p>
             <p class="text-gray-600">${res.description[currentLang]}</p>
         `;
         gridRes.appendChild(carte);
@@ -152,6 +210,8 @@ function afficherRessources(ressources) {
 }
 
 function filtrerRessources() {
+    if (!searchResInput) return;
+
     const terme = searchResInput.value.toLowerCase();
     const type = filterResType.value;
     const resultats = ressourcesData.filter(r => 
@@ -162,10 +222,11 @@ function filtrerRessources() {
 }
 
 function resetFiltersRes() {
-    searchResInput.value = '';
-    filterResType.value = '';
+    if (searchResInput) searchResInput.value = '';
+    if (filterResType) filterResType.value = '';
     afficherRessources(ressourcesData);
 }
+
 
 // ============================================
 // MODAL DÉTAILS PLANTE
@@ -180,7 +241,14 @@ function showPlantDetails(id) {
     document.getElementById('modalNomCom').innerText = plante.nomCommun[currentLang];
     document.getElementById('modalSysteme').innerText = plante.systeme[currentLang];
     document.getElementById('modalMaladie').innerText = plante.maladie[currentLang];
-    document.getElementById('modalUtilisation').innerText = plante.utilisation[currentLang];
+    
+    // Add utilization and toxicity
+    let utilText = plante.utilisation[currentLang];
+    if (plante.toxicite) {
+        const t = i18n[currentLang];
+        utilText += `<br><br><span class="text-red-600 font-bold">⚠️ ${t.lbl_tox || "Toxicité"}: </span><span class="text-red-500">${plante.toxicite[currentLang]}</span>`;
+    }
+    document.getElementById('modalUtilisation').innerHTML = utilText;
     
     document.getElementById('plantModal').classList.remove('hidden');
     document.getElementById('plantModal').classList.add('flex');
@@ -193,6 +261,7 @@ function closeModal() {
     document.body.classList.remove('modal-open');
 }
 
+
 // ============================================
 // MENU MOBILE
 // ============================================
@@ -201,15 +270,16 @@ function toggleMobileMenu() {
     if (menu) menu.classList.toggle('hidden');
 }
 
+
 // ============================================
 // INITIALISATION
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Afficher les données
-    afficherPlantes(plantesData);
-    afficherRessources(ressourcesData);
     
-    // Attacher les événements
+    // 1. Appliquer les traductions initiales
+    applyTranslations(currentLang);
+    
+    // 2. Attacher les événements de filtrage
     if (searchInput) searchInput.addEventListener('input', filtrerDonnees);
     if (filterFamille) filterFamille.addEventListener('change', filtrerDonnees);
     if (filterSysteme) filterSysteme.addEventListener('change', filtrerDonnees);
@@ -217,13 +287,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (searchResInput) searchResInput.addEventListener('input', filtrerRessources);
     if (filterResType) filterResType.addEventListener('change', filtrerRessources);
     
-    // Mobile menu button
+    // 3. Bouton Menu Mobile
     const mobileBtn = document.getElementById('mobile-menu-btn');
     if (mobileBtn) {
         mobileBtn.addEventListener('click', toggleMobileMenu);
     }
     
-    // Fermer le modal en cliquant à l'extérieur
+    // 4. Fermer le modal en cliquant à l'extérieur
     const modal = document.getElementById('plantModal');
     if (modal) {
         modal.addEventListener('click', (e) => {
@@ -232,7 +302,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Exposer les fonctions globalement
+// Exposer les fonctions globalement pour le HTML
+window.applyTranslations = applyTranslations;
 window.resetFilters = resetFilters;
 window.resetFiltersRes = resetFiltersRes;
 window.closeModal = closeModal;
