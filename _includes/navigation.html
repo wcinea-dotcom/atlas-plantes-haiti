@@ -1,0 +1,74 @@
+<nav class="main-nav">
+    <ul class="nav-menu">
+        <!-- Accueil -->
+        <li><a href="/{{ page.lang }}/">{{ site.data.translations[page.lang].nav.home }}</a></li>
+        
+        <!-- Atlas dropdown -->
+        <li class="dropdown">
+            <a href="/{{ page.lang }}/atlas/">{{ site.data.translations[page.lang].nav.atlas }} <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+                <li><a href="/{{ page.lang }}/atlas/">{{ site.data.translations[page.lang].dropdown.atlas_overview }}</a></li>
+                <li><a href="/{{ page.lang }}/atlas/familles/">{{ site.data.translations[page.lang].dropdown.by_family }}</a></li>
+                <li><a href="/{{ page.lang }}/atlas/systemes/">{{ site.data.translations[page.lang].dropdown.by_system }}</a></li>
+                <li><a href="/{{ page.lang }}/atlas/maladies/">{{ site.data.translations[page.lang].dropdown.by_disease }}</a></li>
+                <li><a href="/{{ page.lang }}/atlas/plantes/">{{ site.data.translations[page.lang].dropdown.all_plants }}</a></li>
+            </ul>
+        </li>
+        
+        <!-- Conservation dropdown -->
+        <li class="dropdown">
+            <a href="/{{ page.lang }}/conservation/">{{ site.data.translations[page.lang].nav.conservation }} <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+                <li><a href="/{{ page.lang }}/conservation/">{{ site.data.translations[page.lang].dropdown.atlas_overview }}</a></li>
+                <li><a href="/{{ page.lang }}/conservation/statuts/">Statuts</a></li>
+                <li><a href="/{{ page.lang }}/conservation/especes-menacees/">Espèces menacées</a></li>
+                <li><a href="/{{ page.lang }}/conservation/endemiques/">Endémiques</a></li>
+                <li><a href="/{{ page.lang }}/conservation/reproduction/">Reproduction</a></li>
+            </ul>
+        </li>
+        
+        <!-- Valorisation dropdown -->
+        <li class="dropdown">
+            <a href="/{{ page.lang }}/valorisation/">{{ site.data.translations[page.lang].nav.valorisation }} <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+                <li><a href="/{{ page.lang }}/valorisation/">{{ site.data.translations[page.lang].dropdown.atlas_overview }}</a></li>
+                <li><a href="/{{ page.lang }}/valorisation/usages-medicinaux/">Usages médicinaux</a></li>
+                <li><a href="/{{ page.lang }}/valorisation/toxicite/">Toxicité</a></li>
+                <li><a href="/{{ page.lang }}/valorisation/preparations/">Préparations</a></li>
+                <li><a href="/{{ page.lang }}/valorisation/produits-derives/">Produits dérivés</a></li>
+                <li><a href="/{{ page.lang }}/valorisation/perspectives/">Perspectives</a></li>
+            </ul>
+        </li>
+        
+        <!-- Ressources dropdown -->
+        <li class="dropdown">
+            <a href="/{{ page.lang }}/ressources/">{{ site.data.translations[page.lang].nav.ressources }} <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+                <li><a href="/{{ page.lang }}/ressources/">{{ site.data.translations[page.lang].dropdown.atlas_overview }}</a></li>
+                <li><a href="/{{ page.lang }}/ressources/bibliographie/">Bibliographie</a></li>
+                <li><a href="/{{ page.lang }}/ressources/articles/">Articles</a></li>
+                <li><a href="/{{ page.lang }}/ressources/videos/">Vidéos</a></li>
+                <li><a href="/{{ page.lang }}/ressources/glossaire/">Glossaire</a></li>
+            </ul>
+        </li>
+        
+        <!-- Actualités -->
+        <li><a href="/{{ page.lang }}/actualites/">{{ site.data.translations[page.lang].nav.actualites }}</a></li>
+        
+        <!-- À propos dropdown -->
+        <li class="dropdown">
+            <a href="/{{ page.lang }}/a-propos/">{{ site.data.translations[page.lang].nav.a_propos }} <i class="fas fa-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+                <li><a href="/{{ page.lang }}/a-propos/">{{ site.data.translations[page.lang].dropdown.atlas_overview }}</a></li>
+                <li><a href="/{{ page.lang }}/a-propos/equipe/">Équipe</a></li>
+                <li><a href="/{{ page.lang }}/a-propos/partenaires/">Partenaires</a></li>
+                <li><a href="/{{ page.lang }}/a-propos/contact/">Contact</a></li>
+            </ul>
+        </li>
+        
+        <!-- Recherche -->
+        <li class="search-link">
+            <a href="/{{ page.lang }}/recherche/"><i class="fas fa-search"></i></a>
+        </li>
+    </ul>
+</nav>
