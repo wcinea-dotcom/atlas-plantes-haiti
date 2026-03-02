@@ -4,95 +4,197 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atlas des Plantes du Grand Sud d'Haïti</title>
-    
-    <!-- Meta tags pour SEO -->
-    <meta name="description" content="Atlas botanique des plantes médicinales, aromatiques et nutritionnelles du Grand Sud d'Haïti. Explorez plus de 90 plantes documentées.">
-    <meta name="keywords" content="plantes médicinales, Haïti, botanique, phytothérapie, conservation, biodiversité">
-    <meta name="author" content="Jardin Botanique des Cayes">
-    
-    <!-- Open Graph pour les réseaux sociaux -->
-    <meta property="og:title" content="Atlas des Plantes du Grand Sud d'Haïti">
-    <meta property="og:description" content="Explorez la richesse de la flore médicinale haïtienne">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://via.placeholder.com/1200x630?text=Atlas+Plantes+Haïti">
-    
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <!-- FontAwesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    
-    <!-- Tailwind Config -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        botanical: { 
-                            light: '#e8f5e9', 
-                            DEFAULT: '#2c5e3b', 
-                            dark: '#1e4028', 
-                            accent: '#c5a059',
-                            soil: '#8B5A2B', 
-                            ocean: '#2E86AB'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #2c5e3b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #1e4028; }
+        .modal-open { overflow: hidden; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        [data-lang="en"], [data-lang="ht"] { display: none; }
+        body[data-lang="fr"] [data-lang="fr"] { display: block; }
+        body[data-lang="fr"] [data-lang="en"], body[data-lang="fr"] [data-lang="ht"] { display: none; }
+        body[data-lang="en"] [data-lang="en"] { display: block; }
+        body[data-lang="en"] [data-lang="fr"], body[data-lang="en"] [data-lang="ht"] { display: none; }
+        body[data-lang="ht"] [data-lang="ht"] { display: block; }
+        body[data-lang="ht"] [data-lang="fr"], body[data-lang="ht"] [data-lang="en"] { display: none; }
+        .lang-btn.active { background-color: #c5a059; color: #1e4028; font-weight: bold; }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+<body class="bg-gray-50 text-gray-800 antialiased flex flex-col min-h-screen" data-lang="fr">
 
-    <!-- Header Component (injecté via JS) -->
-    <div id="header-component"></div>
-
-    <main class="flex-grow" id="accueil">
-        <!-- Hero Section avec Avertissement -->
-        <section class="bg-gradient-to-r from-botanical-dark to-botanical text-white py-12 px-4">
-            <div class="max-w-6xl mx-auto text-center">
-                <div class="inline-block bg-red-600 text-white px-6 py-3 rounded-full mb-6 font-bold shadow-lg">
-                    <i class="fa-solid fa-triangle-exclamation mr-2"></i> <span data-i18n="warn_tag">AVERTISSEMENT IMPORTANT</span>
+    <!-- HEADER - Correction : maintenant visible -->
+    <header class="bg-[#2c5e3b] text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <i class="fa-solid fa-leaf text-3xl text-[#c5a059]"></i>
+                    <h1 class="font-black text-xl md:text-2xl tracking-tight">
+                        <span data-lang="fr">Atlas Plantes d'Haïti</span>
+                        <span data-lang="en">Haiti Plant Atlas</span>
+                        <span data-lang="ht">Atla Plant Ayiti</span>
+                    </h1>
                 </div>
-                <p class="text-lg max-w-3xl mx-auto bg-white/10 p-6 rounded-xl backdrop-blur-sm border border-white/20" data-i18n="warn_desc">
-                    Cet atlas n'est pas destiné à l'automédication. De nombreuses plantes peuvent être toxiques. 
-                    Consultez toujours un professionnel de santé avant toute utilisation. En cas de doute, abstenez-vous !
+
+                <!-- Language Switcher - Correction : maintenant visible -->
+                <div class="hidden md:flex items-center gap-3">
+                    <div class="bg-[#1e4028] rounded-lg p-1 flex gap-1 border border-[#c5a059]/30">
+                        <button onclick="setLanguage('fr')" class="lang-btn fr px-3 py-1.5 rounded-md text-sm font-bold hover:bg-[#c5a059]/20 transition active">🇫🇷 FR</button>
+                        <button onclick="setLanguage('en')" class="lang-btn en px-3 py-1.5 rounded-md text-sm font-bold hover:bg-[#c5a059]/20 transition">🇬🇧 EN</button>
+                        <button onclick="setLanguage('ht')" class="lang-btn ht px-3 py-1.5 rounded-md text-sm font-bold hover:bg-[#c5a059]/20 transition">🇭🇹 HT</button>
+                    </div>
+                    
+                    <!-- Navigation Desktop -->
+                    <nav class="hidden lg:flex items-center gap-4 ml-6">
+                        <a href="#accueil" class="hover:text-[#c5a059] transition text-sm font-medium" data-lang="fr">Accueil</a>
+                        <a href="#data-hub" class="hover:text-[#c5a059] transition text-sm font-medium" data-lang="fr">Base de données</a>
+                        <a href="#ressources-hub" class="hover:text-[#c5a059] transition text-sm font-medium" data-lang="fr">Ressources</a>
+                        <a href="#mission" class="hover:text-[#c5a059] transition text-sm font-medium" data-lang="fr">Mission</a>
+                        
+                        <a href="#accueil" class="hover:text-[#c5a059] transition text-sm font-medium" data-lang="en">Home</a>
+                        <a href="#data-hub" class="hover:text-[#c5a059] transition text-sm font-medium" data-lang="en">Database</a>
+                        <a href="#ressources-hub" class="hover:text-[#c5a059] transition text-sm font-medium" data-lang="en">Resources</a>
+                        <a href="#mission" class="hover:text-[#c5a059] transition text-sm font-medium" data-lang="en">Mission</a>
+                        
+                        <a href="#accueil" class="hover:text-[#c5a059] transition text-sm font-medium" data-lang="ht">Akèy</a>
+                        <a href="#data-hub" class="hover:text-[#c5a059] transition text-sm font-medium" data-lang="ht">Baz done</a>
+                        <a href="#ressources-hub" class="hover:text-[#c5a059] transition text-sm font-medium" data-lang="ht">Resous</a>
+                        <a href="#mission" class="hover:text-[#c5a059] transition text-sm font-medium" data-lang="ht">Misyon</a>
+                    </nav>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center gap-2">
+                    <select id="mobileLang" class="bg-[#1e4028] border border-[#c5a059] rounded-lg px-2 py-1 text-sm text-white" onchange="setLanguage(this.value)">
+                        <option value="fr">🇫🇷 FR</option>
+                        <option value="en">🇬🇧 EN</option>
+                        <option value="ht">🇭🇹 HT</option>
+                    </select>
+                    <button id="mobile-menu-btn" class="outline-none text-white focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-3xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#1e4028] border-t border-[#c5a059]/30 pb-4 shadow-inner">
+            <div class="px-4 py-2 space-y-2">
+                <a href="#accueil" class="block px-4 py-3 hover:bg-[#2c5e3b] rounded-lg text-white">
+                    <span data-lang="fr">Accueil</span><span data-lang="en">Home</span><span data-lang="ht">Akèy</span>
+                </a>
+                <a href="#data-hub" class="block px-4 py-3 hover:bg-[#2c5e3b] rounded-lg text-white">
+                    <span data-lang="fr">Base de données</span><span data-lang="en">Database</span><span data-lang="ht">Baz done</span>
+                </a>
+                <a href="#ressources-hub" class="block px-4 py-3 hover:bg-[#2c5e3b] rounded-lg text-white">
+                    <span data-lang="fr">Ressources</span><span data-lang="en">Resources</span><span data-lang="ht">Resous</span>
+                </a>
+                <a href="#mission" class="block px-4 py-3 hover:bg-[#2c5e3b] rounded-lg text-white">
+                    <span data-lang="fr">Mission</span><span data-lang="en">Mission</span><span data-lang="ht">Misyon</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- Hero Avertissement -->
+        <section class="bg-gradient-to-r from-red-700 to-red-500 text-white py-6 px-4">
+            <div class="max-w-6xl mx-auto flex items-center justify-center gap-4 flex-wrap">
+                <div class="bg-white/20 p-3 rounded-full">
+                    <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+                </div>
+                <p class="text-lg font-bold text-center">
+                    <span data-lang="fr">⚠️ AVERTISSEMENT : Cet atlas n'est pas un guide d'automédication. Consultez un professionnel de santé.</span>
+                    <span data-lang="en">⚠️ WARNING: This atlas is not a self-medication guide. Consult a healthcare professional.</span>
+                    <span data-lang="ht">⚠️ AVÈTISMAN : Atlas sa a se pa yon gid pou oto-medikaman. Konsilte yon pwofesyonèl sante.</span>
                 </p>
             </div>
         </section>
 
-        <!-- Data Hub Section avec Filtres (Plantes) -->
-        <section id="data-hub" class="bg-botanical-light py-12 md:py-16 px-4 border-b border-gray-200">
+        <!-- Stats Banner -->
+        <section class="bg-[#2c5e3b] text-white py-8">
+            <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="bg-white/10 p-4 rounded-xl">
+                    <div class="text-3xl font-black">90+</div>
+                    <div class="text-sm uppercase tracking-wider opacity-90">
+                        <span data-lang="fr">Plantes documentées</span>
+                        <span data-lang="en">Documented plants</span>
+                        <span data-lang="ht">Plant dokimante</span>
+                    </div>
+                </div>
+                <div class="bg-white/10 p-4 rounded-xl">
+                    <div class="text-3xl font-black">25+</div>
+                    <div class="text-sm uppercase tracking-wider opacity-90">
+                        <span data-lang="fr">Familles botaniques</span>
+                        <span data-lang="en">Botanical families</span>
+                        <span data-lang="ht">Fanmi botanik</span>
+                    </div>
+                </div>
+                <div class="bg-white/10 p-4 rounded-xl">
+                    <div class="text-3xl font-black">12</div>
+                    <div class="text-sm uppercase tracking-wider opacity-90">
+                        <span data-lang="fr">Systèmes du corps</span>
+                        <span data-lang="en">Body systems</span>
+                        <span data-lang="ht">Sistèm kò</span>
+                    </div>
+                </div>
+                <div class="bg-white/10 p-4 rounded-xl">
+                    <div class="text-3xl font-black">80%</div>
+                    <div class="text-sm uppercase tracking-wider opacity-90">
+                        <span data-lang="fr">Usage traditionnel</span>
+                        <span data-lang="en">Traditional use</span>
+                        <span data-lang="ht">Itilizasyon tradisyonèl</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Hub Section avec Filtres -->
+        <section id="data-hub" class="bg-[#e8f5e9] py-16 px-4 border-b border-gray-200">
             <div class="max-w-6xl mx-auto text-center">
-                <span class="inline-block py-1 px-3 rounded-full bg-botanical text-white text-sm font-semibold mb-4 tracking-wide uppercase">
-                    <i class="fa-solid fa-leaf mr-1"></i> <span data-i18n="hero_tag">90+ Plantes documentées</span>
+                <span class="inline-block py-1 px-4 rounded-full bg-[#2c5e3b] text-white text-sm font-bold mb-6 tracking-wide">
+                    <i class="fa-solid fa-leaf mr-1"></i> 
+                    <span data-lang="fr">90+ Plantes documentées</span>
+                    <span data-lang="en">90+ Documented Plants</span>
+                    <span data-lang="ht">90+ Plant ki dokimante</span>
                 </span>
-                <h2 class="text-3xl md:text-5xl font-extrabold text-botanical-dark mb-4" data-i18n="hero_title">Atlas des Plantes du Grand Sud</h2>
-                <p class="text-lg text-gray-700 mb-8 max-w-3xl mx-auto" data-i18n="hero_desc">
-                    Explorez la richesse de la flore médicinale, aromatique et nutritionnelle des départements du Sud et de la Grand'Anse.
+                <h2 class="text-4xl md:text-5xl font-black text-[#1e4028] mb-4">
+                    <span data-lang="fr">Atlas des Plantes du Grand Sud</span>
+                    <span data-lang="en">Plant Atlas of the Great South</span>
+                    <span data-lang="ht">Atla Plant Gran Sid</span>
+                </h2>
+                <p class="text-lg text-gray-700 mb-10 max-w-3xl mx-auto">
+                    <span data-lang="fr">Explorez la richesse de la flore médicinale, aromatique et nutritionnelle des départements du Sud et de la Grand'Anse.</span>
+                    <span data-lang="en">Explore the wealth of medicinal, aromatic and nutritional flora in the South and Grand'Anse departments.</span>
+                    <span data-lang="ht">Eksplore richès plant medsin, aromatik ak nitrisyonèl nan depatman Sid ak Grandans yo.</span>
                 </p>
                 
-                <!-- Filtres Interface Plantes -->
-                <div class="bg-white p-4 md:p-6 rounded-xl shadow-lg flex flex-col md:flex-row gap-4 items-center border border-gray-100">
-                    
+                <!-- Filtres -->
+                <div class="bg-white p-6 rounded-2xl shadow-xl flex flex-col md:flex-row gap-4 items-center border border-gray-100">
                     <div class="relative w-full md:w-1/4">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-                        </div>
-                        <input type="text" id="searchInput" data-i18n="search_ph" class="block w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-lg focus:ring-botanical focus:border-botanical outline-none transition" placeholder="Rechercher une plante...">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="searchInput" class="block w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none transition" 
+                               placeholder="🔍 Ruellia, Pèpèt, Moringa...">
                     </div>
 
-                    <select id="filterFamille" class="w-full md:w-1/5 py-3 px-3 border-2 border-gray-200 rounded-lg focus:ring-botanical focus:border-botanical bg-white outline-none cursor-pointer">
-                        <option value="" data-i18n="opt_fam">Toutes les familles</option>
+                    <select id="filterFamille" class="w-full md:w-1/5 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none bg-white">
+                        <option value="">
+                            <span data-lang="fr">Toutes les familles</span>
+                            <span data-lang="en">All families</span>
+                            <span data-lang="ht">Tout fanmi</span>
+                        </option>
                         <option value="Acanthaceae">Acanthaceae</option>
                         <option value="Asteraceae">Asteraceae</option>
                         <option value="Cucurbitaceae">Cucurbitaceae</option>
@@ -103,215 +205,706 @@
                         <option value="Solanaceae">Solanaceae</option>
                     </select>
 
-                    <select id="filterSysteme" class="w-full md:w-1/5 py-3 px-3 border-2 border-gray-200 rounded-lg focus:ring-botanical focus:border-botanical bg-white outline-none cursor-pointer">
-                        <option value="" data-i18n="opt_sys">Tous les systèmes</option>
-                        <option value="Nerveux" data-i18n="opt_sys_ner">Nerveux</option>
-                        <option value="Digestif" data-i18n="opt_sys_dig">Digestif</option>
-                        <option value="Cardiovasculaire" data-i18n="opt_sys_card">Cardiovasculaire</option>
-                        <option value="Respiratoire" data-i18n="opt_sys_res">Respiratoire</option>
-                        <option value="Immunitaire" data-i18n="opt_sys_imm">Immunitaire</option>
+                    <select id="filterSysteme" class="w-full md:w-1/5 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none bg-white">
+                        <option value="">
+                            <span data-lang="fr">Tous les systèmes</span>
+                            <span data-lang="en">All systems</span>
+                            <span data-lang="ht">Tout sistèm</span>
+                        </option>
+                        <option value="Nerveux">
+                            <span data-lang="fr">Nerveux</span>
+                            <span data-lang="en">Nervous</span>
+                            <span data-lang="ht">Nève</span>
+                        </option>
+                        <option value="Digestif">
+                            <span data-lang="fr">Digestif</span>
+                            <span data-lang="en">Digestive</span>
+                            <span data-lang="ht">Dijestif</span>
+                        </option>
+                        <option value="Cardiovasculaire">
+                            <span data-lang="fr">Cardiovasculaire</span>
+                            <span data-lang="en">Cardiovascular</span>
+                            <span data-lang="ht">Kadyovaskilè</span>
+                        </option>
+                        <option value="Respiratoire">
+                            <span data-lang="fr">Respiratoire</span>
+                            <span data-lang="en">Respiratory</span>
+                            <span data-lang="ht">Respiratwa</span>
+                        </option>
+                        <option value="Immunitaire">
+                            <span data-lang="fr">Immunitaire</span>
+                            <span data-lang="en">Immune</span>
+                            <span data-lang="ht">Iminitè</span>
+                        </option>
                     </select>
 
-                    <select id="filterMaladie" class="w-full md:w-1/5 py-3 px-3 border-2 border-gray-200 rounded-lg focus:ring-botanical focus:border-botanical bg-white outline-none cursor-pointer">
-                        <option value="" data-i18n="opt_mal">Toutes les maladies</option>
-                        <option value="Diabète" data-i18n="opt_mal_dia">Diabète</option>
-                        <option value="Hypertension" data-i18n="opt_mal_hyp">Hypertension</option>
-                        <option value="Paludisme" data-i18n="opt_mal_mal">Paludisme</option>
-                        <option value="Infections" data-i18n="opt_mal_inf">Infections</option>
+                    <select id="filterMaladie" class="w-full md:w-1/5 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none bg-white">
+                        <option value="">
+                            <span data-lang="fr">Toutes les maladies</span>
+                            <span data-lang="en">All diseases</span>
+                            <span data-lang="ht">Tout maladi</span>
+                        </option>
+                        <option value="Diabète">Diabète</option>
+                        <option value="Hypertension">Hypertension</option>
+                        <option value="Paludisme">Paludisme</option>
+                        <option value="Infections">Infections</option>
                     </select>
 
-                    <button onclick="resetFilters()" class="w-full md:w-auto px-6 py-3 bg-gray-100 text-gray-600 font-bold rounded-lg hover:bg-gray-200 hover:text-botanical transition shadow-sm border border-gray-200">
-                        <i class="fa-solid fa-rotate-right mr-1"></i> <span data-i18n="btn_reset">Réinitialiser</span>
+                    <button onclick="resetFilters()" class="w-full md:w-auto px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i>
+                        <span data-lang="fr">Réinitialiser</span>
+                        <span data-lang="en">Reset</span>
+                        <span data-lang="ht">Reyinisyalize</span>
                     </button>
                 </div>
             </div>
         </section>
 
         <!-- Résultats Plantes -->
-        <section class="py-12 px-4 max-w-7xl mx-auto min-h-[400px]">
-            <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4 border-b border-gray-200 pb-4">
-                <h3 class="text-2xl font-bold text-gray-800" data-i18n="res_title">🌿 Plantes médicinales, aromatiques et nutritionnelles</h3>
-                <span id="resultCount" class="bg-botanical-light border border-botanical text-botanical px-4 py-1.5 rounded-full text-sm font-bold shadow-sm">
-                    0 plante(s)
+        <section class="py-12 px-4 max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">
+                    <span data-lang="fr">🌿 Plantes médicinales</span>
+                    <span data-lang="en">🌿 Medicinal plants</span>
+                    <span data-lang="ht">🌿 Plant medsin</span>
+                </h3>
+                <span id="resultCount" class="bg-[#e8f5e9] border border-[#2c5e3b] text-[#2c5e3b] px-4 py-2 rounded-full text-sm font-bold">
+                    0
                 </span>
             </div>
-            <div id="resultatsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+            <div id="resultatsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 min-h-[400px]">
+                <!-- Les cartes seront injectées ici -->
+            </div>
         </section>
 
-        <!-- Section Base de Données des Ressources -->
-        <section id="ressources-hub" class="bg-gray-50 py-16 px-4 border-t border-gray-200">
+        <!-- Section Ressources Documentaires -->
+        <section id="ressources-hub" class="bg-gray-100 py-16 px-4 border-t border-gray-200">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-12">
-                    <span class="inline-block py-1 px-3 rounded-full bg-botanical-accent text-botanical-dark text-sm font-bold mb-4 tracking-wide uppercase">
-                        <i class="fa-solid fa-book-open-reader mr-1"></i> <span data-i18n="nav_res">Ressources</span>
+                    <span class="inline-block py-1 px-4 rounded-full bg-[#c5a059] text-[#1e4028] text-sm font-bold mb-4">
+                        <i class="fa-solid fa-book-open-reader mr-1"></i>
+                        <span data-lang="fr">Bibliothèque numérique</span>
+                        <span data-lang="en">Digital library</span>
+                        <span data-lang="ht">Bibliyotèk dijital</span>
                     </span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-botanical-dark mb-4" data-i18n="res_hub_title">Base de Données des Ressources</h2>
-                    <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-i18n="res_hub_desc">
-                        Consultez notre collection d'articles scientifiques, de livres spécialisés et de termes de vocabulaire botanique.
+                    <h2 class="text-4xl md:text-5xl font-black text-[#1e4028] mb-4">
+                        <span data-lang="fr">Base de Données des Ressources</span>
+                        <span data-lang="en">Resources Database</span>
+                        <span data-lang="ht">Baz Done Resous</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                        <span data-lang="fr">Consultez notre collection d'articles scientifiques, de livres spécialisés et de termes de vocabulaire botanique.</span>
+                        <span data-lang="en">Browse our collection of scientific articles, specialized books, and botanical vocabulary.</span>
+                        <span data-lang="ht">Gade koleksyon atik syantifik nou yo, liv espesyal ak vokabilè botanik.</span>
                     </p>
                 </div>
 
-                <!-- Filtres Interface Ressources -->
-                <div class="bg-white p-4 md:p-6 rounded-xl shadow-md flex flex-col md:flex-row gap-4 items-center border border-gray-100 mb-8 max-w-4xl mx-auto">
+                <!-- Filtres Ressources -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row gap-4 items-center max-w-4xl mx-auto">
                     <div class="relative w-full md:w-2/3">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
-                        </div>
-                        <input type="text" id="searchResInput" data-i18n="res_search_ph" class="block w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-lg focus:ring-botanical-accent focus:border-botanical-accent outline-none transition" placeholder="Rechercher une ressource...">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="searchResInput" class="block w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#c5a059] focus:border-[#c5a059] outline-none" 
+                               placeholder="Rechercher une ressource...">
                     </div>
-                    <select id="filterResType" class="w-full md:w-1/3 py-3 px-3 border-2 border-gray-200 rounded-lg focus:ring-botanical-accent focus:border-botanical-accent bg-white outline-none cursor-pointer">
-                        <option value="" data-i18n="opt_res_all">Tous les types</option>
-                        <option value="Livre" data-i18n="opt_res_livre">Livres</option>
-                        <option value="Article" data-i18n="opt_res_article">Articles</option>
-                        <option value="Vocabulaire" data-i18n="opt_res_vocab">Vocabulaire</option>
+                    <select id="filterResType" class="w-full md:w-1/3 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#c5a059] focus:border-[#c5a059] outline-none bg-white">
+                        <option value="">
+                            <span data-lang="fr">Tous les types</span>
+                            <span data-lang="en">All types</span>
+                            <span data-lang="ht">Tout tip</span>
+                        </option>
+                        <option value="Livre">
+                            <span data-lang="fr">📚 Livres</span>
+                            <span data-lang="en">📚 Books</span>
+                            <span data-lang="ht">📚 Liv</span>
+                        </option>
+                        <option value="Article">
+                            <span data-lang="fr">📄 Articles</span>
+                            <span data-lang="en">📄 Articles</span>
+                            <span data-lang="ht">📄 Atik</span>
+                        </option>
+                        <option value="Vocabulaire">
+                            <span data-lang="fr">📖 Vocabulaire</span>
+                            <span data-lang="en">📖 Vocabulary</span>
+                            <span data-lang="ht">📖 Vokabilè</span>
+                        </option>
                     </select>
-                    <button onclick="resetFiltersRes()" class="w-full md:w-auto px-6 py-3 bg-gray-100 text-gray-600 font-bold rounded-lg hover:bg-gray-200 transition shadow-sm border border-gray-200" title="Réinitialiser">
-                        <i class="fa-solid fa-rotate-right"></i>
-                    </button>
                 </div>
 
                 <!-- Grid Ressources -->
-                <div id="ressourcesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                <div id="ressourcesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10"></div>
             </div>
         </section>
 
         <!-- Section Valorisation -->
-        <section id="valorisation" class="bg-botanical-light py-16 px-4 border-t border-gray-200">
+        <section id="valorisation" class="bg-[#e8f5e9] py-16 px-4">
             <div class="max-w-7xl mx-auto">
                 <div class="text-center mb-12">
-                    <span class="inline-block py-1 px-3 rounded-full bg-botanical text-white text-sm font-semibold mb-4 tracking-wide uppercase" data-i18n="val_tag">Potentiel Multisectoriel</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-botanical-dark mb-4" data-i18n="val_title">La Valorisation de la Phytothérapie</h2>
+                    <span class="inline-block py-1 px-4 rounded-full bg-[#2c5e3b] text-white text-sm font-bold mb-4">
+                        <i class="fa-solid fa-chart-line mr-1"></i>
+                        <span data-lang="fr">Potentiel multisectoriel</span>
+                        <span data-lang="en">Multisectoral potential</span>
+                        <span data-lang="ht">Potansyèl miltisektè</span>
+                    </span>
+                    <h2 class="text-4xl md:text-5xl font-black text-[#1e4028] mb-4">
+                        <span data-lang="fr">La Valorisation de la Phytothérapie</span>
+                        <span data-lang="en">Valorization of Phytotherapy</span>
+                        <span data-lang="ht">Valorizasyon Fitoterapi</span>
+                    </h2>
                 </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-botanical">
-                        <div class="w-14 h-14 bg-botanical-light text-botanical rounded-full flex items-center justify-center text-2xl mb-6"><i class="fa-solid fa-heart-pulse"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3" data-i18n="val1_t">Santé Médicale</h3>
-                        <p class="text-gray-600" data-i18n="val1_d">Prévention et traitement naturel des affections chroniques ou aiguës.</p>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-[#2c5e3b] card-hover">
+                        <div class="w-16 h-16 bg-[#e8f5e9] text-[#2c5e3b] rounded-2xl flex items-center justify-center text-3xl mb-6">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">
+                            <span data-lang="fr">Santé médicale</span>
+                            <span data-lang="en">Medical health</span>
+                            <span data-lang="ht">Sante medikal</span>
+                        </h3>
+                        <p class="text-gray-600">
+                            <span data-lang="fr">Prévention et traitement naturel des affections chroniques.</span>
+                            <span data-lang="en">Prevention and natural treatment of chronic conditions.</span>
+                            <span data-lang="ht">Prevansyon ak tretman natirèl pou maladi kwonik.</span>
+                        </p>
                     </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-botanical-accent">
-                        <div class="w-14 h-14 bg-green-50 text-green-600 rounded-full flex items-center justify-center text-2xl mb-6"><i class="fa-solid fa-apple-whole"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3" data-i18n="val2_t">Nutrition & Alicaments</h3>
-                        <p class="text-gray-600" data-i18n="val2_d">Utilisation des plantes comme super-aliments pour renforcer l'immunité.</p>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-[#c5a059] card-hover">
+                        <div class="w-16 h-16 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center text-3xl mb-6">
+                            <i class="fa-solid fa-apple-whole"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">
+                            <span data-lang="fr">Nutrition & alicaments</span>
+                            <span data-lang="en">Nutrition & nutraceuticals</span>
+                            <span data-lang="ht">Nitrisyon & aliman</span>
+                        </h3>
+                        <p class="text-gray-600">
+                            <span data-lang="fr">Super-aliments pour renforcer l'immunité.</span>
+                            <span data-lang="en">Superfoods to boost immunity.</span>
+                            <span data-lang="ht">Sipè-aliman pou ranfòse iminitè.</span>
+                        </p>
                     </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-blue-500">
-                        <div class="w-14 h-14 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-2xl mb-6"><i class="fa-solid fa-brain"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3" data-i18n="val3_t">Santé Mentale & Émotionnelle</h3>
-                        <p class="text-gray-600" data-i18n="val3_d">Emploi de plantes adaptogènes pour la réduction du stress et l'équilibre.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-purple-500">
-                        <div class="w-14 h-14 bg-purple-50 text-purple-500 rounded-full flex items-center justify-center text-2xl mb-6"><i class="fa-solid fa-spray-can-sparkles"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3" data-i18n="val4_t">Parfumerie & Aromathérapie</h3>
-                        <p class="text-gray-600" data-i18n="val4_d">Extraction d'huiles essentielles pour la création de fragrances uniques.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-pink-400">
-                        <div class="w-14 h-14 bg-pink-50 text-pink-500 rounded-full flex items-center justify-center text-2xl mb-6"><i class="fa-solid fa-pump-soap"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3" data-i18n="val5_t">Cosmétique Naturelle</h3>
-                        <p class="text-gray-600" data-i18n="val5_d">Formulation de soins pour la peau et les cheveux à partir d'extraits botaniques purs.</p>
-                    </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-yellow-500">
-                        <div class="w-14 h-14 bg-yellow-50 text-yellow-600 rounded-full flex items-center justify-center text-2xl mb-6"><i class="fa-solid fa-seedling"></i></div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-3" data-i18n="val6_t">Développement Économique</h3>
-                        <p class="text-gray-600" data-i18n="val6_d">Création de chaînes de valeur durables générant des emplois stables.</p>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-blue-500 card-hover">
+                        <div class="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-3xl mb-6">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">
+                            <span data-lang="fr">Santé mentale</span>
+                            <span data-lang="en">Mental health</span>
+                            <span data-lang="ht">Sante mantal</span>
+                        </h3>
+                        <p class="text-gray-600">
+                            <span data-lang="fr">Plantes adaptogènes pour le stress.</span>
+                            <span data-lang="en">Adaptogenic plants for stress.</span>
+                            <span data-lang="ht">Plant adaptojèn pou estrès.</span>
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Section Historicité & Mission -->
-        <section id="historicite" class="bg-white py-16 px-4 border-t border-gray-200 flex flex-col md:flex-row gap-12 max-w-7xl mx-auto">
-            <div class="flex-1">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-12 h-12 bg-botanical text-white rounded-full flex items-center justify-center text-xl shadow-md"><i class="fa-solid fa-book-open"></i></div>
-                    <h2 class="text-2xl font-bold text-gray-800" data-i18n="hist_title">Historicité</h2>
+        <section id="mission" class="bg-white py-16 px-4 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
+                <div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-[#2c5e3b] text-white rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">
+                            <span data-lang="fr">Historicité</span>
+                            <span data-lang="en">History</span>
+                            <span data-lang="ht">Istwa</span>
+                        </h2>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        <span data-lang="fr">Les plantes médicinales ont une histoire riche en Haïti, fusionnant les savoirs des Taïnos, des Africains et des Européens pour créer une pharmacopée unique.</span>
+                        <span data-lang="en">Medicinal plants have a rich history in Haiti, merging Taíno, African and European knowledge to create a unique pharmacopoeia.</span>
+                        <span data-lang="ht">Plant medsin yo gen yon istwa rich an Ayiti, ki melanje konesans Tayino, Afriken ak Ewopeyen yo pou kreye yon famakope inik.</span>
+                    </p>
+                    <p class="text-gray-600">
+                        <span data-lang="fr">Aujourd'hui, plus de 80% des Haïtiens utilisent encore les plantes comme première ligne de défense sanitaire.</span>
+                        <span data-lang="en">Today, over 80% of Haitians still use plants as their first line of health defense.</span>
+                        <span data-lang="ht">Jodi a, plis pase 80% Ayisyen toujou itilize plant kòm premye mwayen pou pwoteje sante yo.</span>
+                    </p>
                 </div>
-                <p class="mb-4 text-gray-600" data-i18n="hist_p1">Les plantes médicinales ont une histoire riche en Haïti, fusionnant les savoirs des Taïnos, des Africains et des Européens pour créer une pharmacopée unique.</p>
-                <p class="text-gray-600" data-i18n="hist_p2">Aujourd'hui, plus de 80% des Haïtiens utilisent encore les plantes comme première ligne de défense sanitaire.</p>
-            </div>
-            <div class="flex-1" id="mission">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="w-12 h-12 bg-botanical text-white rounded-full flex items-center justify-center text-xl shadow-md"><i class="fa-solid fa-bullseye"></i></div>
-                    <h2 class="text-2xl font-bold text-gray-800" data-i18n="nav_miss">Notre Mission</h2>
+                <div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-[#2c5e3b] text-white rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">
+                            <span data-lang="fr">Notre Mission</span>
+                            <span data-lang="en">Our Mission</span>
+                            <span data-lang="ht">Misyon Nou</span>
+                        </h2>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex gap-3">
+                            <span class="font-bold text-[#2c5e3b] min-w-[100px]">
+                                <span data-lang="fr">Documenter :</span>
+                                <span data-lang="en">Document:</span>
+                                <span data-lang="ht">Dokimante :</span>
+                            </span>
+                            <span class="text-gray-600">
+                                <span data-lang="fr">Cataloguer systématiquement la flore du Grand Sud.</span>
+                                <span data-lang="en">Systematically catalog the flora of the Great South.</span>
+                                <span data-lang="ht">Fè lis tout plant ki nan Gran Sid la.</span>
+                            </span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="font-bold text-[#2c5e3b] min-w-[100px]">
+                                <span data-lang="fr">Valider :</span>
+                                <span data-lang="en">Validate:</span>
+                                <span data-lang="ht">Valide :</span>
+                            </span>
+                            <span class="text-gray-600">
+                                <span data-lang="fr">Faire le pont entre savoirs ancestraux et science moderne.</span>
+                                <span data-lang="en">Bridge ancestral knowledge and modern science.</span>
+                                <span data-lang="ht">Konekte konesans zansèt nou yo ak syans modèn.</span>
+                            </span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="font-bold text-[#2c5e3b] min-w-[100px]">
+                                <span data-lang="fr">Conserver :</span>
+                                <span data-lang="en">Conserve:</span>
+                                <span data-lang="ht">Konsève :</span>
+                            </span>
+                            <span class="text-gray-600">
+                                <span data-lang="fr">Promouvoir la protection des espèces menacées.</span>
+                                <span data-lang="en">Promote the protection of endangered species.</span>
+                                <span data-lang="ht">Ankouraje pwoteksyon espès ki an danje yo.</span>
+                            </span>
+                        </li>
+                    </ul>
                 </div>
-                <ul class="space-y-4 text-gray-600">
-                    <li><strong class="text-botanical" data-i18n="miss_1t">Documenter :</strong> <span data-i18n="miss_1d">Cataloguer systématiquement la flore du Grand Sud.</span></li>
-                    <li><strong class="text-botanical" data-i18n="miss_2t">Valider :</strong> <span data-i18n="miss_2d">Faire le pont entre savoirs ancestraux et science moderne.</span></li>
-                    <li><strong class="text-botanical" data-i18n="miss_3t">Conserver :</strong> <span data-i18n="miss_3d">Promouvoir la protection des espèces menacées.</span></li>
-                </ul>
             </div>
         </section>
 
-        <!-- Section Avertissement Complet -->
-        <section id="avertissement" class="bg-red-50 py-16 px-4 border-y border-red-200">
-            <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg border-l-8 border-red-600">
-                <h2 class="text-2xl font-bold text-red-800 mb-6" data-i18n="warn_title">Avertissement Légal et Sanitaire</h2>
-                <ul class="space-y-4 text-gray-700">
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i> <span data-i18n="warn_1">Cet atlas n'est pas un manuel d'automédication.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i> <span data-i18n="warn_2">L'identification erronée d'une plante peut être mortelle.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i> <span data-i18n="warn_3">Certaines espèces sont protégées par la loi.</span></li>
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i> <span data-i18n="warn_4">Consultez TOUJOURS un professionnel de la santé.</span></li>
+        <!-- Section Avertissement -->
+        <section class="bg-red-50 py-16 px-4 border-y border-red-200">
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-lg border-l-8 border-red-600">
+                <h2 class="text-2xl font-bold text-red-800 mb-6">
+                    <span data-lang="fr">Avertissement Légal et Sanitaire</span>
+                    <span data-lang="en">Legal and Health Warning</span>
+                    <span data-lang="ht">Avètisman pou Lalwa ak Sante</span>
+                </h2>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i>
+                        <span class="text-gray-700">
+                            <span data-lang="fr">Cet atlas n'est pas un manuel d'automédication.</span>
+                            <span data-lang="en">This atlas is not a self-medication manual.</span>
+                            <span data-lang="ht">Atlas sa a pa yon manyèl pou trete tèt ou.</span>
+                        </span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i>
+                        <span class="text-gray-700">
+                            <span data-lang="fr">L'identification erronée d'une plante peut être mortelle.</span>
+                            <span data-lang="en">Misidentifying a plant can be fatal.</span>
+                            <span data-lang="ht">Si w konfonn yon plant ak yon lòt, sa ka touye w.</span>
+                        </span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i>
+                        <span class="text-gray-700">
+                            <span data-lang="fr">Certaines espèces sont protégées par la loi.</span>
+                            <span data-lang="en">Some species are protected by law.</span>
+                            <span data-lang="ht">Gen espès lalwa pwoteje.</span>
+                        </span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i>
+                        <span class="text-gray-700">
+                            <span data-lang="fr">Consultez TOUJOURS un professionnel de la santé.</span>
+                            <span data-lang="en">ALWAYS consult a healthcare professional.</span>
+                            <span data-lang="ht">TOUJOU al wè yon pwofesyonèl lasante.</span>
+                        </span>
+                    </li>
                 </ul>
             </div>
         </section>
     </main>
 
-    <!-- Footer Component (injecté via JS) -->
-    <div id="footer-component"></div>
+    <!-- FOOTER - Correction : maintenant visible -->
+    <footer class="bg-gray-900 text-gray-400 py-12 text-center border-t-4 border-[#c5a059]">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <i class="fa-solid fa-leaf text-[#c5a059] text-3xl"></i>
+                <h4 class="text-white text-2xl font-black tracking-wider">
+                    <span data-lang="fr">ATLAS PLANTES HAÏTI</span>
+                    <span data-lang="en">HAITI PLANT ATLAS</span>
+                    <span data-lang="ht">ATLA PLANT AYITI</span>
+                </h4>
+            </div>
+            <p class="mb-4 max-w-2xl mx-auto">
+                <span data-lang="fr">Documentation, conservation et valorisation de la biodiversité du Grand Sud.</span>
+                <span data-lang="en">Documentation, conservation and valorization of the biodiversity of Southern Haiti.</span>
+                <span data-lang="ht">Dokimantasyon, konsèvasyon ak valorizasyon divèsite biyolojik Gran Sid la.</span>
+            </p>
+            <div class="border-t border-gray-800 pt-6 mt-6 text-sm text-gray-500">
+                <p>© 2026 Atlas Botanique d'Haïti. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
 
     <!-- MODAL POUR LES DÉTAILS DE LA PLANTE -->
-    <div id="plantModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm transition-opacity">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 bg-white hover:bg-gray-100 text-gray-800 rounded-full w-10 h-10 flex items-center justify-center shadow z-10 transition">
+    <div id="plantModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative animate-fade-in">
+            <button onclick="closeModal()" class="absolute top-4 right-4 bg-white hover:bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center shadow-lg z-10">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
-            <div class="h-64 sm:h-80 w-full relative">
+            <div class="h-64 w-full relative">
                 <img id="modalImage" src="" alt="" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-                <div class="absolute bottom-0 left-0 p-6 text-white w-full">
-                    <span id="modalFamille" class="text-xs font-bold text-botanical-accent uppercase tracking-widest bg-black/50 px-2 py-1 rounded"></span>
-                    <h2 id="modalNomSci" class="text-3xl sm:text-4xl font-extrabold italic mt-2"></h2>
-                    <p id="modalNomCom" class="text-lg font-medium text-gray-200 mt-1"></p>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-6 text-white">
+                    <span id="modalFamille" class="text-xs font-bold text-[#c5a059] uppercase bg-black/30 px-2 py-1 rounded"></span>
+                    <h2 id="modalNomSci" class="text-3xl font-bold italic mt-2"></h2>
+                    <p id="modalNomCom" class="text-lg"></p>
                 </div>
             </div>
-            <div class="p-6 sm:p-8 grid md:grid-cols-2 gap-8">
-                <div class="space-y-6">
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2" data-i18n="lbl_sys">Système ciblé</h4>
-                        <p id="modalSysteme" class="text-gray-800 font-medium flex items-center gap-2"><i class="fa-solid fa-child-reaching text-botanical"></i> <span></span></p>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2" data-i18n="lbl_mal">Maladies / Indications</h4>
-                        <p id="modalMaladie" class="text-gray-800 font-medium flex items-center gap-2"><i class="fa-solid fa-virus-covid text-botanical"></i> <span></span></p>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2" data-i18n="lbl_use">Utilisation traditionnelle</h4>
-                        <p id="modalUtilisation" class="text-gray-800 font-medium flex items-start gap-2"><i class="fa-solid fa-mortar-pestle text-botanical mt-1"></i> <span></span></p>
-                    </div>
+            <div class="p-6 grid md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="font-bold text-gray-500 uppercase text-sm mb-2">
+                        <span data-lang="fr">Système</span>
+                        <span data-lang="en">System</span>
+                        <span data-lang="ht">Sistèm</span>
+                    </h4>
+                    <p id="modalSysteme" class="text-gray-800"></p>
                 </div>
-                <div class="space-y-6 bg-gray-50 p-6 rounded-xl border border-gray-100">
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2" data-i18n="lbl_stat">Statut de conservation</h4>
-                        <span id="modalStatut" class="inline-block px-3 py-1 rounded-full text-sm font-bold border"></span>
-                    </div>
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2" data-i18n="lbl_orig">Origine</h4>
-                        <p id="modalOrigine" class="text-gray-800 font-medium"></p>
-                    </div>
-                    <div id="modalToxiciteContainer" class="hidden">
-                        <h4 class="text-sm font-bold text-red-400 uppercase tracking-wider mb-2" data-i18n="lbl_tox">Toxicité & Précautions</h4>
-                        <p id="modalToxicite" class="text-red-700 font-bold bg-red-100 p-3 rounded-lg border border-red-200 flex items-start gap-2">
-                            <i class="fa-solid fa-triangle-exclamation mt-1"></i> <span></span>
-                        </p>
-                    </div>
+                <div>
+                    <h4 class="font-bold text-gray-500 uppercase text-sm mb-2">
+                        <span data-lang="fr">Maladies</span>
+                        <span data-lang="en">Diseases</span>
+                        <span data-lang="ht">Maladi</span>
+                    </h4>
+                    <p id="modalMaladie" class="text-gray-800"></p>
+                </div>
+                <div class="md:col-span-2">
+                    <h4 class="font-bold text-gray-500 uppercase text-sm mb-2">
+                        <span data-lang="fr">Utilisation</span>
+                        <span data-lang="en">Use</span>
+                        <span data-lang="ht">Itilizasyon</span>
+                    </h4>
+                    <p id="modalUtilisation" class="text-gray-800"></p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="js/translations.js"></script>
-    <script src="js/plantes-data.js"></script>
-    <script src="js/ressources-data.js"></script>
-    <script src="js/i18n.js"></script>
-    <script src="js/main.js"></script>
+    <!-- JavaScript -->
+    <script>
+        // ============================================
+        // GESTION DES LANGUES - CORRIGÉE
+        // ============================================
+        let currentLang = 'fr';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.body.setAttribute('data-lang', lang);
+            
+            // Mettre à jour les boutons de langue
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.classList.contains(lang)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Mettre à jour le sélecteur mobile
+            const mobileLang = document.getElementById('mobileLang');
+            if (mobileLang) mobileLang.value = lang;
+            
+            // Sauvegarder la préférence
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Charger la langue préférée au démarrage
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang) {
+                setLanguage(savedLang);
+            } else {
+                setLanguage('fr');
+            }
+        });
+
+        // ============================================
+        // DONNÉES DES PLANTES
+        // ============================================
+        const plantesData = [
+            {
+                id: 1,
+                nomScientifique: "Ruellia tuberosa L.",
+                famille: "Acanthaceae",
+                image: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&q=80&w=400&h=300",
+                nomCommun: {fr: "Pèpèt", en: "Minnie Root", ht: "Pèpèt"},
+                systeme: {fr: "Digestif, Urinaire", en: "Digestive, Urinary", ht: "Dijestif, Pipi"},
+                maladie: {fr: "Troubles digestifs, Calculs rénaux", en: "Digestive issues, Kidney stones", ht: "Pwoblèm dijesyon, Wòch nan ren"},
+                utilisation: {fr: "Infusion des feuilles - diurétique", en: "Leaf infusion - diuretic", ht: "Fèy bouyi - diurétik"},
+                statut: {fr: "Commune", en: "Common", ht: "Komen"},
+                origine: {fr: "Native", en: "Native", ht: "Natif natal"}
+            },
+            {
+                id: 2,
+                nomScientifique: "Moringa oleifera Lam.",
+                famille: "Moringaceae",
+                image: "https://images.unsplash.com/photo-1626094309830-abbb0c99da4a?auto=format&fit=crop&q=80&w=400&h=300",
+                nomCommun: {fr: "Benzoliv", en: "Moringa", ht: "Benzoliv"},
+                systeme: {fr: "Immunitaire, Nutrition", en: "Immune, Nutrition", ht: "Iminitè, Nitrisyon"},
+                maladie: {fr: "Malnutrition, Anémie", en: "Malnutrition, Anemia", ht: "Malnitrisyon, Anemi"},
+                utilisation: {fr: "Feuilles en poudre", en: "Powdered leaves", ht: "Fèy an poud"},
+                statut: {fr: "Cultivée", en: "Cultivated", ht: "Kiltive"},
+                origine: {fr: "Exotique", en: "Exotic", ht: "Egzotik"}
+            },
+            {
+                id: 3,
+                nomScientifique: "Momordica charantia L.",
+                famille: "Cucurbitaceae",
+                image: "https://images.unsplash.com/photo-1604841505532-1f8fc96bc58b?auto=format&fit=crop&q=80&w=400&h=300",
+                nomCommun: {fr: "Asosi", en: "Bitter melon", ht: "Asosi"},
+                systeme: {fr: "Métabolique, Digestif", en: "Metabolic, Digestive", ht: "Metabolik, Dijestif"},
+                maladie: {fr: "Diabète, Parasitose", en: "Diabetes, Parasites", ht: "Dyabèt, Vè"},
+                utilisation: {fr: "Décoction des feuilles", en: "Leaf decoction", ht: "Fèy bouyi"},
+                statut: {fr: "Commune", en: "Common", ht: "Komen"},
+                origine: {fr: "Exotique", en: "Exotic", ht: "Egzotik"},
+                toxicite: {fr: "Abortif - déconseillé grossesse", en: "Abortifacient - avoid pregnancy", ht: "Pa bon pou fanm ansent"}
+            },
+            {
+                id: 4,
+                nomScientifique: "Cymbopogon citratus",
+                famille: "Poaceae",
+                image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=400&h=300",
+                nomCommun: {fr: "Sitwonèl", en: "Lemongrass", ht: "Sitwonèl"},
+                systeme: {fr: "Nerveux, Digestif", en: "Nervous, Digestive", ht: "Nève, Dijestif"},
+                maladie: {fr: "Stress, Grippe", en: "Stress, Flu", ht: "Estrès, Grip"},
+                utilisation: {fr: "Infusion des feuilles", en: "Leaf infusion", ht: "Fèy bouyi"},
+                statut: {fr: "Cultivée", en: "Cultivated", ht: "Kiltive"},
+                origine: {fr: "Exotique", en: "Exotic", ht: "Egzotik"}
+            },
+            {
+                id: 5,
+                nomScientifique: "Zingiber officinale",
+                famille: "Zingiberaceae",
+                image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=400&h=300",
+                nomCommun: {fr: "Jinjanm", en: "Ginger", ht: "Jenjanm"},
+                systeme: {fr: "Digestif, Immunitaire", en: "Digestive, Immune", ht: "Dijestif, Iminitè"},
+                maladie: {fr: "Nausées, Grippe", en: "Nausea, Flu", ht: "Kè plen, Grip"},
+                utilisation: {fr: "Rhizome en infusion", en: "Rhizome infusion", ht: "Rasin nan bouyi"},
+                statut: {fr: "Cultivée", en: "Cultivated", ht: "Kiltive"},
+                origine: {fr: "Exotique", en: "Exotic", ht: "Egzotik"}
+            }
+        ];
+
+        // ============================================
+        // DONNÉES DES RESSOURCES
+        // ============================================
+        const ressourcesData = [
+            {
+                type: "Livre",
+                titre: {fr: "Pharmacopée de la Caraïbe", en: "Caribbean Pharmacopoeia", ht: "Farmakope Karayib"},
+                auteur: "TRAMIL",
+                annee: "2014",
+                description: {fr: "Ouvrage de référence sur les plantes médicinales caribéennes.", en: "Reference work on Caribbean medicinal plants.", ht: "Liv referans sou plant medsin Karayib."}
+            },
+            {
+                type: "Article",
+                titre: {fr: "Propriétés antioxydantes du Moringa", en: "Antioxidant properties of Moringa", ht: "Kapasite antioksidan Benzoliv"},
+                auteur: "Dr. S. Pierre",
+                annee: "2021",
+                description: {fr: "Analyse clinique des feuilles de Benzoliv.", en: "Clinical analysis of Moringa leaves.", ht: "Analiz klinik fèy Benzoliv."}
+            },
+            {
+                type: "Vocabulaire",
+                titre: {fr: "Décoction", en: "Decoction", ht: "Dekoksyon"},
+                auteur: "Terminologie",
+                annee: "-",
+                description: {fr: "Préparation obtenue en faisant bouillir les parties dures.", en: "Preparation by boiling hard parts.", ht: "Fè bouyi pati di plant yo."}
+            }
+        ];
+
+        // ============================================
+        // AFFICHAGE DES PLANTES
+        // ============================================
+        const grid = document.getElementById('resultatsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterFamille = document.getElementById('filterFamille');
+        const filterSysteme = document.getElementById('filterSysteme');
+        const filterMaladie = document.getElementById('filterMaladie');
+        const resultCount = document.getElementById('resultCount');
+
+        function getStatusColor(statut) {
+            if (!statut) return 'bg-gray-100 text-gray-800';
+            const s = statut.toLowerCase();
+            if (s.includes('commune') || s.includes('cultivée') || s.includes('common') || s.includes('cultivated') || s.includes('komen') || s.includes('kiltive')) 
+                return 'bg-green-100 text-green-800 border-green-300';
+            if (s.includes('rare') || s.includes('menacée') || s.includes('endangered')) 
+                return 'bg-red-100 text-red-800 border-red-300';
+            return 'bg-gray-100 text-gray-800 border-gray-300';
+        }
+
+        function afficherPlantes(plantes) {
+            grid.innerHTML = '';
+            resultCount.textContent = plantes.length;
+
+            plantes.forEach(plante => {
+                const carte = document.createElement('div');
+                carte.className = 'bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col group cursor-pointer';
+                carte.onclick = () => showPlantDetails(plante.id);
+                
+                const statusColor = getStatusColor(plante.statut[currentLang]);
+
+                carte.innerHTML = `
+                    <div class="h-48 overflow-hidden relative">
+                        <img src="${plante.image}" alt="${plante.nomScientifique}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <span class="absolute top-3 right-3 text-[10px] font-bold px-3 py-1.5 rounded-full ${statusColor} border shadow-sm uppercase tracking-wide">
+                            ${plante.statut[currentLang]}
+                        </span>
+                        ${plante.toxicite ? `<span class="absolute top-3 left-3 text-[10px] font-bold px-3 py-1.5 rounded-full bg-red-600 text-white border shadow-sm"><i class="fa-solid fa-triangle-exclamation mr-1"></i>TOXIQUE</span>` : ''}
+                    </div>
+                    <div class="p-5 flex-grow">
+                        <span class="text-[10px] font-bold text-[#c5a059] uppercase tracking-widest">${plante.famille}</span>
+                        <h3 class="text-lg font-extrabold text-gray-900 mb-1 italic">${plante.nomScientifique}</h3>
+                        <p class="text-sm text-gray-500 font-medium mb-3">${plante.nomCommun[currentLang]}</p>
+                        <div class="space-y-2 text-xs text-gray-700">
+                            <div class="flex items-start gap-2">
+                                <i class="fa-solid fa-heart-pulse text-[#2c5e3b] mt-1 w-4"></i>
+                                <div>${plante.systeme[currentLang]}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(carte);
+            });
+        }
+
+        function filtrerDonnees() {
+            const terme = searchInput.value.toLowerCase();
+            const famille = filterFamille.value;
+            const systeme = filterSysteme.value;
+
+            const resultats = plantesData.filter(plante => {
+                const matchTexte = plante.nomScientifique.toLowerCase().includes(terme) || 
+                                   plante.nomCommun[currentLang].toLowerCase().includes(terme);
+                const matchFamille = famille === "" || plante.famille === famille;
+                const matchSysteme = systeme === "" || plante.systeme.fr.includes(systeme);
+                return matchTexte && matchFamille && matchSysteme;
+            });
+
+            afficherPlantes(resultats);
+        }
+
+        function resetFilters() {
+            searchInput.value = '';
+            filterFamille.value = '';
+            filterSysteme.value = '';
+            filterMaladie.value = '';
+            afficherPlantes(plantesData);
+        }
+
+        function showPlantDetails(id) {
+            const plante = plantesData.find(p => p.id === id);
+            if (!plante) return;
+            
+            document.getElementById('modalImage').src = plante.image;
+            document.getElementById('modalFamille').innerText = plante.famille;
+            document.getElementById('modalNomSci').innerText = plante.nomScientifique;
+            document.getElementById('modalNomCom').innerText = plante.nomCommun[currentLang];
+            document.getElementById('modalSysteme').innerText = plante.systeme[currentLang];
+            document.getElementById('modalMaladie').innerText = plante.maladie[currentLang];
+            document.getElementById('modalUtilisation').innerText = plante.utilisation[currentLang];
+            
+            document.getElementById('plantModal').classList.remove('hidden');
+            document.getElementById('plantModal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('plantModal').classList.add('hidden');
+            document.getElementById('plantModal').classList.remove('flex');
+        }
+
+        // ============================================
+        // AFFICHAGE DES RESSOURCES
+        // ============================================
+        const gridRes = document.getElementById('ressourcesGrid');
+        const searchResInput = document.getElementById('searchResInput');
+        const filterResType = document.getElementById('filterResType');
+
+        function getIconForResType(type) {
+            if (type === 'Livre') return 'fa-book';
+            if (type === 'Article') return 'fa-file-lines';
+            if (type === 'Vocabulaire') return 'fa-spell-check';
+            return 'fa-file';
+        }
+
+        function afficherRessources(ressources) {
+            gridRes.innerHTML = '';
+            ressources.forEach(res => {
+                const carte = document.createElement('div');
+                carte.className = 'bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition border border-gray-100';
+                carte.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 rounded-full bg-[#e8f5e9] text-[#2c5e3b] flex items-center justify-center text-xl">
+                            <i class="fa-solid ${getIconForResType(res.type)}"></i>
+                        </div>
+                        <span class="text-xs font-bold uppercase text-[#2c5e3b] border border-[#2c5e3b] px-2 py-1 rounded-full">${res.type}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">${res.titre[currentLang]}</h3>
+                    <p class="text-sm text-gray-500 mb-4">${res.auteur} • ${res.annee}</p>
+                    <p class="text-gray-600">${res.description[currentLang]}</p>
+                `;
+                gridRes.appendChild(carte);
+            });
+        }
+
+        function filtrerRessources() {
+            const terme = searchResInput.value.toLowerCase();
+            const type = filterResType.value;
+            const resultats = ressourcesData.filter(r => 
+                (r.titre[currentLang].toLowerCase().includes(terme) || r.description[currentLang].toLowerCase().includes(terme)) &&
+                (type === "" || r.type === type)
+            );
+            afficherRessources(resultats);
+        }
+
+        function resetFiltersRes() {
+            searchResInput.value = '';
+            filterResType.value = '';
+            afficherRessources(ressourcesData);
+        }
+
+        // ============================================
+        // MENU MOBILE
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            afficherPlantes(plantesData);
+            afficherRessources(ressourcesData);
+            
+            searchInput.addEventListener('input', filtrerDonnees);
+            filterFamille.addEventListener('change', filtrerDonnees);
+            filterSysteme.addEventListener('change', filtrerDonnees);
+            filterMaladie.addEventListener('change', filtrerDonnees);
+            searchResInput.addEventListener('input', filtrerRessources);
+            filterResType.addEventListener('change', filtrerRessources);
+            
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            document.getElementById('plantModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('plantModal')) closeModal();
+            });
+        });
+
+        // Exposer les fonctions globalement
+        window.setLanguage = setLanguage;
+        window.resetFilters = resetFilters;
+        window.resetFiltersRes = resetFiltersRes;
+        window.closeModal = closeModal;
+    </script>
 </body>
 </html>
