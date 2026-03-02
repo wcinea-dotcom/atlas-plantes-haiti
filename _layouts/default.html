@@ -7,13 +7,10 @@
     {% include header.html %}
     {% include warning-banner.html %}
     
-    <main class="main-content">
+    <main class="min-h-screen">
         {{ content }}
     </main>
     
     {% include footer.html %}
-    
-    <script src="/assets/js/main.js"></script>
-    {% if page.js %}<script src="/assets/js/{{ page.js }}"></script>{% endif %}
 </body>
 </html>
