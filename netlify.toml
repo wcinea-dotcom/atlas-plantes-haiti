@@ -1,15 +1,19 @@
 [build]
-  command = "echo 'No build required'"
-  publish = "."
+  command = "jekyll build"
+  publish = "_site"
 
 [build.environment]
-  HUGO_VERSION = "0.80.0"
+  JEKYLL_ENV = "production"
+
+[plugins]
+  [[plugins]]
+    package = "jekyll"
 
 # Redirections pour les pages multilingues
 [[redirects]]
   from = "/"
-  to = "/index.html"
-  status = 200
+  to = "/fr/"
+  status = 302
 
 # Gestion des erreurs 404
 [[redirects]]
