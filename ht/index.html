@@ -242,3 +242,123 @@
                         <h3 class="text-xl font-bold mb-3">Sante Mantal</h3>
                         <p class="text-gray-600">Plant adaptojèn pou diminye estrès.</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- History & Mission Section -->
+        <section id="misyon" class="bg-white py-16 px-4 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
+                <div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-[#2c5e3b] text-white rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">Istwa</h2>
+                    </div>
+                    <p class="text-gray-600 mb-4">Plant medsin yo gen yon istwa rich an Ayiti, ki melanje konesans Tayino, Afriken ak Ewopeyen yo pou kreye yon famakope inik.</p>
+                    <p class="text-gray-600">Jodi a, plis pase 80% Ayisyen toujou itilize plant kòm premye mwayen pou pwoteje sante yo.</p>
+                </div>
+                <div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-[#2c5e3b] text-white rounded-xl flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">Misyon Nou</h2>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex gap-3">
+                            <span class="font-bold text-[#2c5e3b] min-w-[100px]">Dokimante :</span>
+                            <span class="text-gray-600">Fè lis tout plant ki nan Gran Sid la.</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="font-bold text-[#2c5e3b] min-w-[100px]">Valide :</span>
+                            <span class="text-gray-600">Konekte konesans zansèt nou yo ak syans modèn.</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="font-bold text-[#2c5e3b] min-w-[100px]">Konsève :</span>
+                            <span class="text-gray-600">Ankouraje pwoteksyon espès ki an danje yo.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Warning Section -->
+        <section class="bg-red-50 py-16 px-4 border-y border-red-200">
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-lg border-l-8 border-red-600">
+                <h2 class="text-2xl font-bold text-red-800 mb-6">Avètisman pou Lalwa ak Sante</h2>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i>
+                        <span class="text-gray-700">Atlas sa a pa yon manyèl pou trete tèt ou.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i>
+                        <span class="text-gray-700">Si w konfonn yon plant ak yon lòt, sa ka touye w.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i>
+                        <span class="text-gray-700">Gen espès lalwa pwoteje.</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i>
+                        <span class="text-gray-700">TOUJOU al wè yon pwofesyonèl lasante.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-gray-400 py-12 text-center border-t-4 border-[#c5a059]">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <i class="fa-solid fa-leaf text-[#c5a059] text-3xl"></i>
+                <h4 class="text-white text-2xl font-black tracking-wider">ATLA PLANT AYITI</h4>
+            </div>
+            <p class="mb-4 max-w-2xl mx-auto">Dokimantasyon, konsèvasyon ak valorizasyon divèsite biyolojik Gran Sid la.</p>
+            <div class="border-t border-gray-800 pt-6 mt-6 text-sm text-gray-500">
+                <p>© 2026 Atlas Botanik Ayiti. Tout dwa rezève.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PLANT DETAIL MODAL -->
+    <div id="plantModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative animate-fade-in">
+            <button onclick="closeModal()" class="absolute top-4 right-4 bg-white hover:bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center shadow-lg z-10">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="h-64 w-full relative">
+                <img id="modalImage" src="" alt="" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-6 text-white">
+                    <span id="modalFamille" class="text-xs font-bold text-[#c5a059] uppercase bg-black/30 px-2 py-1 rounded"></span>
+                    <h2 id="modalNomSci" class="text-3xl font-bold italic mt-2"></h2>
+                    <p id="modalNomCom" class="text-lg"></p>
+                </div>
+            </div>
+            <div class="p-6 grid md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="font-bold text-gray-500 uppercase text-sm mb-2">Sistèm</h4>
+                    <p id="modalSysteme" class="text-gray-800"></p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-gray-500 uppercase text-sm mb-2">Maladi</h4>
+                    <p id="modalMaladie" class="text-gray-800"></p>
+                </div>
+                <div class="md:col-span-2">
+                    <h4 class="font-bold text-gray-500 uppercase text-sm mb-2">Itilizasyon</h4>
+                    <p id="modalUtilisation" class="text-gray-800"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/js/plantes-data.js"></script>
+    <script src="/js/ressources-data.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
