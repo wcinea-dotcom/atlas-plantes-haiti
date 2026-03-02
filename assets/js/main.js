@@ -400,4 +400,20 @@ function closeModal() {
 
 // Toggle sous-menu mobile
 function toggleMobileSubmenu(id) {
+    const submenu = document.getElementById(id);
+    if (submenu) {
+        submenu.classList.toggle('hidden');
+        submenu.classList.toggle('flex');
+    }
+}
+
+// Exposer les fonctions globalement
+window.setFilter = setFilter;
+window.resetFilters = resetFilters;
+window.setFilterRes = setFilterRes;
+window.resetFiltersRes = resetFiltersRes;
+window.showPlantDetails = showPlantDetails;
+window.closeModal = closeModal;
+window.toggleMobileSubmenu = toggleMobileSubmenu;
+window.setLanguage = setLanguage;
    
