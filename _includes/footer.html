@@ -1,0 +1,24 @@
+<footer class="bg-gray-900 text-gray-400 py-12 text-center border-t-4 border-[#c5a059]">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex items-center justify-center gap-3 mb-6">
+            <i class="fa-solid fa-leaf text-[#c5a059] text-3xl"></i>
+            <h4 class="text-white text-2xl font-black tracking-wider">
+                {% if page.lang == 'fr' %}ATLAS PLANTES HAÏTI
+                {% elsif page.lang == 'en' %}HAITI PLANT ATLAS
+                {% else %}ATLA PLANT AYITI{% endif %}
+            </h4>
+        </div>
+        <p class="mb-4 max-w-2xl mx-auto">
+            {% if page.lang == 'fr' %}
+                Documentation, conservation et valorisation de la biodiversité du Grand Sud.
+            {% elsif page.lang == 'en' %}
+                Documentation, conservation and valorization of the biodiversity of Southern Haiti.
+            {% else %}
+                Dokimantasyon, konsèvasyon ak valorizasyon divèsite biyolojik Gran Sid la.
+            {% endif %}
+        </p>
+        <div class="border-t border-gray-800 pt-6 mt-6 text-sm text-gray-500">
+            <p>© {{ site.time | date: '%Y' }} Atlas Botanique d'Haïti. Tous droits réservés.</p>
+        </div>
+    </div>
+</footer>
