@@ -62,3 +62,118 @@ const plantesData = [
         origine: {fr: "Exotique", en: "Exotic", ht: "Egzotik"}
     }
 ];
+
+// Fonction pour afficher les cartes de plantes
+function renderPlantes(plantesToRender) {
+    const grid = document.getElementById('resultatsGrid');
+    const count = document.getElementById('resultCount');
+    
+    // Safety check if the elements don't exist on the page
+    if (!grid) return;
+
+    // Grab the UI translations for the current language
+    const t = i18n[currentLang]; 
+
+    grid.innerHTML = '';
+    
+    if (count) {
+        count.textContent = plantesToRender.length;
+    }
+
+    // Show empty state if no plants match the search/filters
+    if (plantesToRender.length === 0) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-10">
+                <p class="text-xl text-gray-500">${t.res_empty}</p>
+                <p class="text-sm text-gray-400">${t.res_empty_desc}</p>
+            </div>`;
+        return;
+    }
+
+    // Loop through the plants and build the HTML cards
+    plantesToRender.forEach(plante => {
+        const nomComun = plante.nomCommun[currentLang];
+        const systemes = plante.systeme[currentLang];
+        const maladies = plante.maladie[currentLang];
+        
+        // Add a toxicity badge if the plant has toxicity data
+        const toxicityBadge = plante.toxicite ? `<div class="absolute top-4 left-4 bg-red-600 text-white px-2 py-1 rounded text-xs font-bold shadow animate-pulse"><i class="fa-solid fa-triangle-exclamation"></i> ${t.lbl_tox_badge}</div>` : '';
+
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 card-hover flex flex-col';
+        
+        card.innerHTML = `
+            <div class="h-48 relative overflow-hidden bg-gray-200">
+                <img src="${plante.image}" alt="${nomComun}" class="w-full h-full object-cover">
+                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-[#2c5e3b] shadow">
+                    ${plante.famille}
+                </div>
+                ${toxicityBadge}
+            </div>
+            <div class="p-5 flex-grow flex flex-col">
+                <h4 class="text-xl font-black text-[#1e4028] mb-1">${nomComun}</h4>
+                <p class="text-sm italic text-gray-500 mb-4">${plante.nomScientifique}</p>
+                
+                <div class="space-y-2 mb-4 flex-grow">
+                    <p class="text-sm"><span class="font-bold text-gray-700">${t.lbl_sys} :</span> <span class="text-gray-600">${systemes}</span></p>
+                    <p class="text-sm"><span class="font-bold text-gray-700">${t.lbl_mal} :</span> <span class="text-gray-600">${maladies}</span></p>
+                </div>
+                
+                <button onclick="openModal(${plante.id})" class="w-full py-2 bg-[#e8f5e9] text-[#2c5e3b] font-bold rounded-xl hover:bg-[#2c5e3b] hover:text-white transition" type="button">
+                    ${t.btn_details}
+                </button>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+// Fonction pour ouvrir la fenêtre contextuelle (Modal)
+function openModal(id) {
+    const plante = plantesData.find(p => p.id === id);
+    if (!plante) return;
+
+    const t = i18n[currentLang];
+
+    // Populate the modal content with dynamic data
+    document.getElementById('modalImage').src = plante.image;
+    document.getElementById('modalFamille').textContent = plante.famille;
+    document.getElementById('modalNomSci').textContent = plante.nomScientifique;
+    document.getElementById('modalNomCom').textContent = plante.nomCommun[currentLang];
+    document.getElementById('modalSysteme').textContent = plante.systeme[currentLang];
+    document.getElementById('modalMaladie').textContent = plante.maladie[currentLang];
+
+    // Handle Utilization and optional Toxicity warnings
+    let utilisationHtml = `<p class="text-gray-800">${plante.utilisation[currentLang]}</p>`;
+    if (plante.toxicite) {
+        utilisationHtml += `
+            <div class="mt-4 bg-red-50 border-l-4 border-red-600 p-3 rounded">
+                <p class="text-red-800 text-sm font-bold"><i class="fa-solid fa-triangle-exclamation"></i> ${t.lbl_tox}</p>
+                <p class="text-red-700 text-sm">${plante.toxicite[currentLang]}</p>
+            </div>
+        `;
+    }
+    document.getElementById('modalUtilisation').innerHTML = utilisationHtml;
+
+    // Show the modal window
+    const modal = document.getElementById('plantModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.classList.add('modal-open');
+}
+
+// Fonction pour fermer la fenêtre contextuelle
+function closeModal() {
+    const modal = document.getElementById('plantModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.classList.remove('modal-open');
+}
+
+// Render the initial grid when the file loads
+document.addEventListener('DOMContentLoaded', () => {
+    // Adding a slight delay to ensure i18n is fully loaded from main.js
+    setTimeout(() => {
+        renderPlantes(plantesData);
+    }, 100);
+});
