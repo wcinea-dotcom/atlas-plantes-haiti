@@ -1,190 +1,134 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atlas des Plantes d'Haïti</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        /* Styles simples pour les dropdowns */
-        .dropdown { position: relative; display: inline-block; }
-        
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: white;
-            min-width: 220px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            border-radius: 0 0 8px 8px;
-            border-top: 3px solid #c5a059;
-            z-index: 1000;
-        }
-        
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-        
-        .dropdown-content a {
-            color: #2c5e3b;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            border-bottom: 1px solid #e5e7eb;
-            font-size: 0.9rem;
-        }
-        
-        .dropdown-content a:hover {
-            background-color: #e8f5e9;
-        }
-        
-        .dropdown-content a:last-child {
-            border-bottom: none;
-        }
-    </style>
-</head>
-<body class="bg-gray-50">
+<header class="site-header" id="top">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html" aria-label="Accueil">
+      <span class="brand-mark" aria-hidden="true">
+        <!-- petite icône feuille -->
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+          <path d="M20 4s-7 1-11 5-5 11-5 11 7-1 11-5 5-11 5-11Z" fill="currentColor" opacity=".95"/>
+          <path d="M9 15c2-2 6-4 10-5" stroke="#0b1f14" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="brand-title">Atlas Plantes d'Haïti</span>
+    </a>
 
-<!-- HEADER SIMPLE -->
-<header class="bg-[#2c5e3b] text-white shadow-lg sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4">
-        <div class="flex justify-between items-center h-16">
-            
-            <!-- Logo -->
-            <div class="flex items-center gap-2">
-                <i class="fa-solid fa-leaf text-2xl text-[#c5a059]"></i>
-                <span class="font-bold text-lg">Atlas Plantes</span>
-                <span class="bg-[#c5a059] text-[#1e4028] text-xs px-2 py-0.5 rounded-full font-bold">PRO</span>
-            </div>
+    <!-- actions à gauche du menu -->
+    <div class="nav-actions">
+      <button class="lang-btn" id="langSelector" type="button" aria-haspopup="listbox" aria-expanded="false">
+        <span class="globe" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M12 22a10 10 0 1 0-10-10 10 10 0 0 0 10 10Z" stroke="currentColor" stroke-width="1.8"/>
+            <path d="M2 12h20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M12 2c3.5 3 3.5 17 0 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M12 2c-3.5 3-3.5 17 0 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity=".55"/>
+          </svg>
+        </span>
+        <span id="currentLang">FR</span>
+        <span class="chev" aria-hidden="true">▾</span>
+      </button>
 
-            <!-- Navigation avec dropdowns -->
-            <nav class="hidden md:flex items-center space-x-1">
-                
-                <!-- Accueil -->
-                <div class="dropdown">
-                    <button class="px-3 py-2 hover:bg-[#1e4028] rounded-md text-sm font-medium flex items-center gap-1">
-                        Accueil <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="/fr/histoire/">📜 Historicité</a>
-                        <a href="/fr/mission/">🎯 Mission</a>
-                        <a href="/fr/avertissement/">⚠️ Avertissement</a>
-                        <a href="/fr/vocabulaire/">📚 Vocabulaire</a>
-                    </div>
-                </div>
-
-                <!-- Familles -->
-                <div class="dropdown">
-                    <button class="px-3 py-2 hover:bg-[#1e4028] rounded-md text-sm font-medium flex items-center gap-1">
-                        Familles <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="/fr/familles/acanthaceae/">🌿 Acanthaceae</a>
-                        <a href="/fr/familles/asteraceae/">🌻 Asteraceae</a>
-                        <a href="/fr/familles/fabaceae/">🌱 Fabaceae</a>
-                        <a href="/fr/familles/lamiaceae/">🍃 Lamiaceae</a>
-                        <a href="/fr/familles/solanaceae/">🍅 Solanaceae</a>
-                    </div>
-                </div>
-
-                <!-- Systèmes -->
-                <div class="dropdown">
-                    <button class="px-3 py-2 hover:bg-[#1e4028] rounded-md text-sm font-medium flex items-center gap-1">
-                        Systèmes <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="/fr/systemes/nerveux/">🧠 Nerveux</a>
-                        <a href="/fr/systemes/digestif/">🍽️ Digestif</a>
-                        <a href="/fr/systemes/cardiovasculaire/">❤️ Cardiovasculaire</a>
-                        <a href="/fr/systemes/respiratoire/">🫁 Respiratoire</a>
-                        <a href="/fr/systemes/immunitaire/">🛡️ Immunitaire</a>
-                    </div>
-                </div>
-
-                <!-- Maladies -->
-                <div class="dropdown">
-                    <button class="px-3 py-2 hover:bg-[#1e4028] rounded-md text-sm font-medium flex items-center gap-1">
-                        Maladies <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="/fr/maladies/diabete/">💉 Diabète</a>
-                        <a href="/fr/maladies/hypertension/">📈 Hypertension</a>
-                        <a href="/fr/maladies/paludisme/">🦟 Paludisme</a>
-                        <a href="/fr/maladies/infections/">🦠 Infections</a>
-                    </div>
-                </div>
-
-                <!-- Conservation -->
-                <div class="dropdown">
-                    <button class="px-3 py-2 hover:bg-[#1e4028] rounded-md text-sm font-medium flex items-center gap-1">
-                        Conservation <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="/fr/conservation/statuts/">📊 Statuts</a>
-                        <a href="/fr/conservation/especes-menacees/">⚠️ Menacées</a>
-                        <a href="/fr/conservation/endemiques/">🌍 Endémiques</a>
-                        <a href="/fr/conservation/reproduction/">🌱 Reproduction</a>
-                    </div>
-                </div>
-
-                <!-- Valorisation -->
-                <div class="dropdown">
-                    <button class="px-3 py-2 hover:bg-[#1e4028] rounded-md text-sm font-medium flex items-center gap-1">
-                        Valorisation <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="/fr/valorisation/usages/">💊 Usages</a>
-                        <a href="/fr/valorisation/toxicite/">⚠️ Toxicité</a>
-                        <a href="/fr/valorisation/preparations/">⚗️ Préparations</a>
-                        <a href="/fr/valorisation/produits/">🧴 Produits</a>
-                    </div>
-                </div>
-
-                <!-- Ressources -->
-                <div class="dropdown">
-                    <button class="px-3 py-2 hover:bg-[#1e4028] rounded-md text-sm font-medium flex items-center gap-1">
-                        Ressources <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="/fr/ressources/bibliographie/">📚 Bibliographie</a>
-                        <a href="/fr/ressources/articles/">📄 Articles</a>
-                        <a href="/fr/ressources/videos/">🎥 Vidéos</a>
-                        <a href="/fr/ressources/glossaire/">📖 Glossaire</a>
-                    </div>
-                </div>
-
-                <!-- Langues -->
-                <div class="ml-4 flex items-center gap-1 bg-[#1e4028] rounded-md p-1">
-                    <a href="/fr/" class="px-2 py-1 rounded text-xs font-bold bg-[#c5a059] text-[#1e4028]">FR</a>
-                    <a href="/en/" class="px-2 py-1 rounded text-xs font-bold text-white hover:bg-[#c5a059] hover:text-[#1e4028]">EN</a>
-                    <a href="/ht/" class="px-2 py-1 rounded text-xs font-bold text-white hover:bg-[#c5a059] hover:text-[#1e4028]">HT</a>
-                </div>
-            </nav>
-
-            <!-- Menu mobile -->
-            <button class="md:hidden text-white">
-                <i class="fa-solid fa-bars text-xl"></i>
-            </button>
-        </div>
+      <ul class="lang-menu" id="langMenu" role="listbox" aria-label="Choix de langue" hidden>
+        <li role="option"><button type="button" data-lang="FR">FR — Français</button></li>
+        <li role="option"><button type="button" data-lang="EN">EN — English</button></li>
+        <li role="option"><button type="button" data-lang="ES">ES — Español</button></li>
+      </ul>
     </div>
+
+    <!-- bouton mobile -->
+    <button class="burger" id="mobileMenuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- menu desktop -->
+    <nav class="main-nav" id="mainNav" aria-label="Navigation principale">
+      <ul class="nav-list">
+        <li class="nav-item has-dd">
+          <a href="#" class="nav-link">Accueil</a>
+          <ul class="dropdown">
+            <li><a href="index.html">Page d’accueil</a></li>
+            <li><a href="#intro">Introduction</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item has-dd">
+          <a href="#" class="nav-link">Familles</a>
+          <ul class="dropdown">
+            <li><a href="familles.html">Toutes les familles</a></li>
+            <li><a href="famille-detail.html">Famille (exemple)</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item has-dd">
+          <a href="#" class="nav-link">Systèmes</a>
+          <ul class="dropdown">
+            <li><a href="systemes.html">Tous les systèmes</a></li>
+            <li><a href="systeme-digestif.html">Système digestif</a></li>
+            <li><a href="systeme-respiratoire.html">Système respiratoire</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item has-dd">
+          <a href="#" class="nav-link">Maladies</a>
+          <ul class="dropdown">
+            <li><a href="maladies.html">Liste des maladies</a></li>
+            <li><a href="maladie-grippe.html">Grippe (exemple)</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item has-dd">
+          <a href="#" class="nav-link">Conservation</a>
+          <ul class="dropdown">
+            <li><a href="conservation.html">Approche</a></li>
+            <li><a href="in-situ.html">In situ</a></li>
+            <li><a href="ex-situ.html">Ex situ</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item has-dd">
+          <a href="#" class="nav-link">Valorisation</a>
+          <ul class="dropdown">
+            <li><a href="valorisation.html">Usages</a></li>
+            <li><a href="phytotherapie.html">Phytothérapie</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item has-dd">
+          <a href="#" class="nav-link">Ressources</a>
+          <ul class="dropdown">
+            <li><a href="ressources.html">Documents</a></li>
+            <li><a href="references.html">Références</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- bouton vertical à droite -->
+    <a class="db-pill" href="base-de-donnees.html" aria-label="Base de données">
+      <span class="db-ico" aria-hidden="true">🗄️</span>
+      <span class="db-text">Base<br/>de<br/>données</span>
+    </a>
+  </div>
+
+  <!-- menu mobile (drawer) -->
+  <div class="mobile-drawer" id="mobileDrawer" hidden>
+    <div class="mobile-inner">
+      <div class="mobile-top">
+        <strong>Menu</strong>
+        <button class="mobile-close" id="mobileClose" type="button" aria-label="Fermer">✕</button>
+      </div>
+
+      <a class="mobile-link" href="index.html">Accueil</a>
+      <a class="mobile-link" href="familles.html">Familles</a>
+      <a class="mobile-link" href="systemes.html">Systèmes</a>
+      <a class="mobile-link" href="maladies.html">Maladies</a>
+      <a class="mobile-link" href="conservation.html">Conservation</a>
+      <a class="mobile-link" href="valorisation.html">Valorisation</a>
+      <a class="mobile-link" href="ressources.html">Ressources</a>
+
+      <div class="mobile-cta">
+        <a href="base-de-donnees.html" class="mobile-db">Base de données</a>
+      </div>
+    </div>
+  </div>
 </header>
-
-<!-- Bannière avertissement -->
-<div class="bg-red-600 text-white py-2 px-4 text-center text-sm">
-    <i class="fa-solid fa-triangle-exclamation mr-2"></i>
-    AVERTISSEMENT : Cet atlas n'est pas un guide d'automédication.
-</div>
-
-<!-- Contenu test -->
-<main class="max-w-7xl mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold text-[#1e4028] mb-4">Test Header</h1>
-    <p class="text-gray-600">Survolez les menus pour voir les dropdowns.</p>
-</main>
-
-</body>
-</html>
+        
+       
