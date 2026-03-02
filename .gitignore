@@ -28,8 +28,3 @@ package-lock.json
 dist/
 build/
 *.tgz
-
-# IDE
-.project
-.classpath
-.settings/
