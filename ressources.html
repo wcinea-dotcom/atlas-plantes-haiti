@@ -1,0 +1,38 @@
+---
+layout: default
+title: "Bibliothèque Numérique et Ressources"
+permalink: /ressources/
+---
+
+<section class="bg-[#1e4028] text-white py-12 px-4 relative overflow-hidden">
+  <div class="max-w-6xl mx-auto relative z-10 text-center">
+    <span class="inline-block py-1 px-4 rounded-full bg-[#c5a059] text-[#1e4028] text-sm font-bold mb-4 tracking-wide shadow-lg">
+      <i class="fa-solid fa-book-open-reader mr-1"></i> <span data-i18n="nav_res">Ressources</span>
+    </span>
+    <h1 class="text-3xl md:text-5xl font-black mb-4" data-i18n="res_hub_title">Base de Données des Ressources</h1>
+    <p class="text-lg max-w-3xl mx-auto opacity-90" data-i18n="res_hub_desc">Consultez notre collection d'articles scientifiques, de livres spécialisés et de termes de vocabulaire botanique.</p>
+  </div>
+</section>
+
+<section class="bg-gray-50 py-16 px-4 flex-grow">
+  <div class="max-w-7xl mx-auto">
+    
+    <div class="bg-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row gap-4 items-center max-w-4xl mx-auto mb-12 border border-gray-100">
+      <div class="relative w-full md:w-2/3">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        <input type="text" id="searchResInput"
+               class="block w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#c5a059] focus:border-[#c5a059] outline-none transition"
+               data-i18n-placeholder="res_search_ph" placeholder="Rechercher une ressource...">
+      </div>
+      <select id="filterResType" class="w-full md:w-1/3 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#c5a059] focus:border-[#c5a059] outline-none bg-white transition">
+        <option value="" data-i18n="opt_res_all">Tous les types</option>
+        <option value="Livre" data-i18n="opt_res_livre">Livres</option>
+        <option value="Article" data-i18n="opt_res_article">Articles</option>
+        <option value="Vocabulaire" data-i18n="opt_res_vocab">Vocabulaire</option>
+      </select>
+    </div>
+
+    <div id="ressourcesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    
+  </div>
+</section>
