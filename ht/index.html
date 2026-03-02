@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ht" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atla Plant Gran Sid Ayiti</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #2c5e3b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #1e4028; }
+        .modal-open { overflow: hidden; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased flex flex-col min-h-screen">
+
+    <!-- HEADER - Kreyòl version -->
+    <header class="bg-[#2c5e3b] text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <i class="fa-solid fa-leaf text-3xl text-[#c5a059]"></i>
+                    <h1 class="font-black text-xl md:text-2xl tracking-tight">Atla Plant Ayiti</h1>
+                </div>
+
+                <!-- Language Switcher -->
+                <div class="hidden md:flex items-center gap-3">
+                    <div class="bg-[#1e4028] rounded-lg p-1 flex gap-1 border border-[#c5a059]/30">
+                        <a href="/fr/" class="px-3 py-1.5 rounded-md text-sm font-bold hover:bg-[#c5a059]/20 transition">🇫🇷 FR</a>
+                        <a href="/en/" class="px-3 py-1.5 rounded-md text-sm font-bold hover:bg-[#c5a059]/20 transition">🇬🇧 EN</a>
+                        <a href="/ht/" class="px-3 py-1.5 rounded-md text-sm font-bold bg-[#c5a059] text-[#1e4028]">🇭🇹 HT</a>
+                    </div>
+                    
+                    <!-- Navigation Desktop -->
+                    <nav class="hidden lg:flex items-center gap-4 ml-6">
+                        <a href="#akèy" class="hover:text-[#c5a059] transition text-sm font-medium">Akèy</a>
+                        <a href="#data-hub" class="hover:text-[#c5a059] transition text-sm font-medium">Baz done</a>
+                        <a href="#resources-hub" class="hover:text-[#c5a059] transition text-sm font-medium">Resous</a>
+                        <a href="#misyon" class="hover:text-[#c5a059] transition text-sm font-medium">Misyon</a>
+                    </nav>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center gap-2">
+                    <select id="mobileLang" class="bg-[#1e4028] border border-[#c5a059] rounded-lg px-2 py-1 text-sm text-white" onchange="window.location.href = this.value">
+                        <option value="/fr/">🇫🇷 FR</option>
+                        <option value="/en/">🇬🇧 EN</option>
+                        <option value="/ht/" selected>🇭🇹 HT</option>
+                    </select>
+                    <button id="mobile-menu-btn" class="outline-none text-white focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-3xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-[#1e4028] border-t border-[#c5a059]/30 pb-4 shadow-inner">
+            <div class="px-4 py-2 space-y-2">
+                <a href="#akèy" class="block px-4 py-3 hover:bg-[#2c5e3b] rounded-lg text-white">Akèy</a>
+                <a href="#data-hub" class="block px-4 py-3 hover:bg-[#2c5e3b] rounded-lg text-white">Baz done</a>
+                <a href="#resources-hub" class="block px-4 py-3 hover:bg-[#2c5e3b] rounded-lg text-white">Resous</a>
+                <a href="#misyon" class="block px-4 py-3 hover:bg-[#2c5e3b] rounded-lg text-white">Misyon</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <!-- Hero Avètisman -->
+        <section class="bg-gradient-to-r from-red-700 to-red-500 text-white py-6 px-4">
+            <div class="max-w-6xl mx-auto flex items-center justify-center gap-4 flex-wrap">
+                <div class="bg-white/20 p-3 rounded-full">
+                    <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+                </div>
+                <p class="text-lg font-bold text-center">
+                    ⚠️ AVÈTISMAN : Atlas sa a se pa yon gid pou oto-medikaman. Konsilte yon pwofesyonèl sante.
+                </p>
+            </div>
+        </section>
+
+        <!-- Stats Banner -->
+        <section class="bg-[#2c5e3b] text-white py-8">
+            <div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="bg-white/10 p-4 rounded-xl">
+                    <div class="text-3xl font-black">90+</div>
+                    <div class="text-sm uppercase tracking-wider opacity-90">Plant dokimante</div>
+                </div>
+                <div class="bg-white/10 p-4 rounded-xl">
+                    <div class="text-3xl font-black">25+</div>
+                    <div class="text-sm uppercase tracking-wider opacity-90">Fanmi botanik</div>
+                </div>
+                <div class="bg-white/10 p-4 rounded-xl">
+                    <div class="text-3xl font-black">12</div>
+                    <div class="text-sm uppercase tracking-wider opacity-90">Sistèm kò</div>
+                </div>
+                <div class="bg-white/10 p-4 rounded-xl">
+                    <div class="text-3xl font-black">80%</div>
+                    <div class="text-sm uppercase tracking-wider opacity-90">Itilizasyon tradisyonèl</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Hub Section with Filters -->
+        <section id="data-hub" class="bg-[#e8f5e9] py-16 px-4 border-b border-gray-200">
+            <div class="max-w-6xl mx-auto text-center">
+                <span class="inline-block py-1 px-4 rounded-full bg-[#2c5e3b] text-white text-sm font-bold mb-6 tracking-wide">
+                    <i class="fa-solid fa-leaf mr-1"></i> 90+ Plant dokimante
+                </span>
+                <h2 class="text-4xl md:text-5xl font-black text-[#1e4028] mb-4">Atlas Plant Gran Sid</h2>
+                <p class="text-lg text-gray-700 mb-10 max-w-3xl mx-auto">
+                    Eksplore richès plant medsin, aromatik ak nitrisyonèl ki nan depatman Sid ak Grandans yo.
+                </p>
+                
+                <!-- Filters -->
+                <div class="bg-white p-6 rounded-2xl shadow-xl flex flex-col md:flex-row gap-4 items-center border border-gray-100">
+                    <div class="relative w-full md:w-1/4">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="searchInput" class="block w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none transition" 
+                               placeholder="🔍 Ruellia, Pèpèt, Moringa...">
+                    </div>
+
+                    <select id="filterFamille" class="w-full md:w-1/5 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none bg-white">
+                        <option value="">Tout fanmi</option>
+                        <option value="Acanthaceae">Acanthaceae</option>
+                        <option value="Asteraceae">Asteraceae</option>
+                        <option value="Cucurbitaceae">Cucurbitaceae</option>
+                        <option value="Euphorbiaceae">Euphorbiaceae</option>
+                        <option value="Fabaceae">Fabaceae</option>
+                        <option value="Lamiaceae">Lamiaceae</option>
+                        <option value="Rutaceae">Rutaceae</option>
+                        <option value="Solanaceae">Solanaceae</option>
+                    </select>
+
+                    <select id="filterSysteme" class="w-full md:w-1/5 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none bg-white">
+                        <option value="">Tout sistèm</option>
+                        <option value="Nerveux">Nève</option>
+                        <option value="Digestif">Dijestif</option>
+                        <option value="Cardiovasculaire">Kadyovaskilè</option>
+                        <option value="Respiratoire">Respiratwa</option>
+                        <option value="Immunitaire">Iminitè</option>
+                    </select>
+
+                    <select id="filterMaladie" class="w-full md:w-1/5 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none bg-white">
+                        <option value="">Tout maladi</option>
+                        <option value="Diabète">Dyabèt</option>
+                        <option value="Hypertension">Tansyon wo</option>
+                        <option value="Paludisme">Malarya</option>
+                        <option value="Infections">Enfeksyon</option>
+                    </select>
+
+                    <button onclick="resetFilters()" class="w-full md:w-auto px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-rotate-right"></i> Reyinisyalize
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Plants -->
+        <section class="py-12 px-4 max-w-7xl mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">🌿 Plant medsin</h3>
+                <span id="resultCount" class="bg-[#e8f5e9] border border-[#2c5e3b] text-[#2c5e3b] px-4 py-2 rounded-full text-sm font-bold">0</span>
+            </div>
+            <div id="resultatsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 min-h-[400px]"></div>
+        </section>
+
+        <!-- Resources Database Section -->
+        <section id="resources-hub" class="bg-gray-100 py-16 px-4 border-t border-gray-200">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12">
+                    <span class="inline-block py-1 px-4 rounded-full bg-[#c5a059] text-[#1e4028] text-sm font-bold mb-4">
+                        <i class="fa-solid fa-book-open-reader mr-1"></i> Bibliyotèk dijital
+                    </span>
+                    <h2 class="text-4xl md:text-5xl font-black text-[#1e4028] mb-4">Baz Done Resous</h2>
+                    <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                        Gade koleksyon atik syantifik nou yo, liv espesyal ak vokabilè botanik.
+                    </p>
+                </div>
+
+                <!-- Resources Filters -->
+                <div class="bg-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row gap-4 items-center max-w-4xl mx-auto">
+                    <div class="relative w-full md:w-2/3">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="searchResInput" class="block w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#c5a059] focus:border-[#c5a059] outline-none" 
+                               placeholder="Chèche yon resous...">
+                    </div>
+                    <select id="filterResType" class="w-full md:w-1/3 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#c5a059] focus:border-[#c5a059] outline-none bg-white">
+                        <option value="">Tout tip</option>
+                        <option value="Livre">📚 Liv</option>
+                        <option value="Article">📄 Atik</option>
+                        <option value="Vocabulaire">📖 Vokabilè</option>
+                    </select>
+                </div>
+
+                <!-- Resources Grid -->
+                <div id="ressourcesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10"></div>
+            </div>
+        </section>
+
+        <!-- Valorization Section -->
+        <section id="valorisation" class="bg-[#e8f5e9] py-16 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-12">
+                    <span class="inline-block py-1 px-4 rounded-full bg-[#2c5e3b] text-white text-sm font-bold mb-4">
+                        <i class="fa-solid fa-chart-line mr-1"></i> Potansyèl Miltisektè
+                    </span>
+                    <h2 class="text-4xl md:text-5xl font-black text-[#1e4028] mb-4">Valorizasyon Fitoterapi</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-[#2c5e3b] card-hover">
+                        <div class="w-16 h-16 bg-[#e8f5e9] text-[#2c5e3b] rounded-2xl flex items-center justify-center text-3xl mb-6">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Sante Medikal</h3>
+                        <p class="text-gray-600">Prevansyon ak tretman natirèl pou maladi kwonik.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-[#c5a059] card-hover">
+                        <div class="w-16 h-16 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center text-3xl mb-6">
+                            <i class="fa-solid fa-apple-whole"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Nitrisyon & Aliman</h3>
+                        <p class="text-gray-600">Sipè-aliman pou ranfòse iminitè.</p>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-blue-500 card-hover">
+                        <div class="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-3xl mb-6">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3">Sante Mantal</h3>
+                        <p class="text-gray-600">Plant adaptojèn pou diminye estrès.</p>
+                    </div>
