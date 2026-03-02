@@ -1,29 +1,201 @@
-<!doctype html>
-<html lang="{{ page.lang | default: site.lang | default: 'fr' }}">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{{ page.title | escape }} | {{ site.title | escape }}</title>
+---
+layout: default
+---
 
-  <!-- CSS local -->
-  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+<section class="bg-gradient-to-r from-red-700 to-red-500 text-white py-6 px-4">
+  <div class="max-w-6xl mx-auto flex items-center justify-center gap-4 flex-wrap">
+    <div class="bg-white/20 p-3 rounded-full">
+      <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+    </div>
+    <p class="text-lg font-bold text-center">
+      <span data-i18n="warn_tag" class="mr-2 uppercase"></span>
+      <span data-i18n="warn_desc"></span>
+    </p>
+  </div>
+</section>
 
-  <!-- FontAwesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<section id="data-hub" class="bg-[#e8f5e9] py-16 px-4 border-b border-gray-200">
+  <div class="max-w-6xl mx-auto text-center">
+    <span class="inline-block py-1 px-4 rounded-full bg-[#2c5e3b] text-white text-sm font-bold mb-6 tracking-wide">
+      <i class="fa-solid fa-leaf mr-1"></i> <span data-i18n="hero_tag"></span>
+    </span>
+    <h2 class="text-4xl md:text-5xl font-black text-[#1e4028] mb-4" data-i18n="hero_title"></h2>
+    <p class="text-lg text-gray-700 mb-10 max-w-3xl mx-auto" data-i18n="hero_desc"></p>
 
-  <!-- Tailwind CDN (à garder seulement si tu utilises les classes Tailwind) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-  {% include header.html %}
+    <div class="bg-white p-6 rounded-2xl shadow-xl flex flex-col md:flex-row gap-4 items-center border border-gray-100">
+      <div class="relative w-full md:w-1/4">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        <input type="text" id="searchInput"
+               class="block w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none transition"
+               data-i18n-placeholder="search_ph">
+      </div>
 
-  <main>
-    {{ content }}
-  </main>
+      <select id="filterFamille" class="w-full md:w-1/5 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none bg-white">
+        <option value="" data-i18n="opt_fam"></option>
+        <option value="Acanthaceae">Acanthaceae</option>
+        <option value="Asteraceae">Asteraceae</option>
+        <option value="Cucurbitaceae">Cucurbitaceae</option>
+        <option value="Euphorbiaceae">Euphorbiaceae</option>
+        <option value="Fabaceae">Fabaceae</option>
+        <option value="Lamiaceae">Lamiaceae</option>
+        <option value="Rutaceae">Rutaceae</option>
+        <option value="Solanaceae">Solanaceae</option>
+      </select>
 
-  {% include footer.html %}
-  {% include modal.html %}
+      <select id="filterSysteme" class="w-full md:w-1/5 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none bg-white">
+        <option value="" data-i18n="opt_sys"></option>
+        <option value="Nerveux" data-i18n="opt_sys_ner"></option>
+        <option value="Digestif" data-i18n="opt_sys_dig"></option>
+        <option value="Cardiovasculaire" data-i18n="opt_sys_card"></option>
+        <option value="Respiratoire" data-i18n="opt_sys_res"></option>
+        <option value="Immunitaire" data-i18n="opt_sys_imm"></option>
+      </select>
 
-  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
-</body>
-</html>
+      <select id="filterMaladie" class="w-full md:w-1/5 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#2c5e3b] focus:border-[#2c5e3b] outline-none bg-white">
+        <option value="" data-i18n="opt_mal"></option>
+        <option value="Diabète" data-i18n="opt_mal_dia"></option>
+        <option value="Hypertension" data-i18n="opt_mal_hyp"></option>
+        <option value="Paludisme" data-i18n="opt_mal_mal"></option>
+        <option value="Infections" data-i18n="opt_mal_inf"></option>
+      </select>
+
+      <button onclick="resetFilters()" class="w-full md:w-auto px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition flex items-center justify-center gap-2" type="button">
+        <i class="fa-solid fa-rotate-right"></i> <span data-i18n="btn_reset"></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="py-12 px-4 max-w-7xl mx-auto">
+  <div class="flex justify-between items-center mb-6">
+    <h3 class="text-2xl font-bold text-gray-800" data-i18n="res_title"></h3>
+    <span id="resultCount" class="bg-[#e8f5e9] border border-[#2c5e3b] text-[#2c5e3b] px-4 py-2 rounded-full text-sm font-bold">0</span>
+  </div>
+  <div id="resultatsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 min-h-[400px]"></div>
+</section>
+
+<section id="resources-hub" class="bg-gray-100 py-16 px-4 border-t border-gray-200">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="inline-block py-1 px-4 rounded-full bg-[#c5a059] text-[#1e4028] text-sm font-bold mb-4">
+        <i class="fa-solid fa-book-open-reader mr-1"></i> <span data-i18n="nav_res"></span>
+      </span>
+      <h2 class="text-4xl md:text-5xl font-black text-[#1e4028] mb-4" data-i18n="res_hub_title"></h2>
+      <p class="text-lg text-gray-600 max-w-3xl mx-auto" data-i18n="res_hub_desc"></p>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl shadow-lg flex flex-col md:flex-row gap-4 items-center max-w-4xl mx-auto">
+      <div class="relative w-full md:w-2/3">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        <input type="text" id="searchResInput"
+               class="block w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#c5a059] focus:border-[#c5a059] outline-none"
+               data-i18n-placeholder="res_search_ph">
+      </div>
+      <select id="filterResType" class="w-full md:w-1/3 py-3 px-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#c5a059] focus:border-[#c5a059] outline-none bg-white">
+        <option value="" data-i18n="opt_res_all"></option>
+        <option value="Livre" data-i18n="opt_res_livre"></option>
+        <option value="Article" data-i18n="opt_res_article"></option>
+        <option value="Vocabulaire" data-i18n="opt_res_vocab"></option>
+      </select>
+    </div>
+
+    <div id="ressourcesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10"></div>
+  </div>
+</section>
+
+<section id="valorisation" class="bg-[#e8f5e9] py-16 px-4">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="inline-block py-1 px-4 rounded-full bg-[#2c5e3b] text-white text-sm font-bold mb-4">
+        <i class="fa-solid fa-chart-line mr-1"></i> <span data-i18n="val_tag"></span>
+      </span>
+      <h2 class="text-4xl md:text-5xl font-black text-[#1e4028] mb-4" data-i18n="val_title"></h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-[#2c5e3b] card-hover">
+        <div class="w-16 h-16 bg-[#e8f5e9] text-[#2c5e3b] rounded-2xl flex items-center justify-center text-3xl mb-6">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-3" data-i18n="val1_t"></h3>
+        <p class="text-gray-600" data-i18n="val1_d"></p>
+      </div>
+      <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-[#c5a059] card-hover">
+        <div class="w-16 h-16 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center text-3xl mb-6">
+          <i class="fa-solid fa-apple-whole"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-3" data-i18n="val2_t"></h3>
+        <p class="text-gray-600" data-i18n="val2_d"></p>
+      </div>
+      <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-blue-500 card-hover">
+        <div class="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-3xl mb-6">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-3" data-i18n="val3_t"></h3>
+        <p class="text-gray-600" data-i18n="val3_d"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="mission" class="bg-white py-16 px-4 border-t border-gray-200">
+  <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
+    <div>
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-12 h-12 bg-[#2c5e3b] text-white rounded-xl flex items-center justify-center text-xl">
+          <i class="fa-solid fa-book-open"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800" data-i18n="hist_title"></h2>
+      </div>
+      <p class="text-gray-600 mb-4" data-i18n="hist_p1"></p>
+      <p class="text-gray-600" data-i18n="hist_p2"></p>
+    </div>
+
+    <div>
+      <div class="flex items-center gap-4 mb-6">
+        <div class="w-12 h-12 bg-[#2c5e3b] text-white rounded-xl flex items-center justify-center text-xl">
+          <i class="fa-solid fa-bullseye"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800" data-i18n="nav_miss"></h2>
+      </div>
+      <ul class="space-y-4">
+        <li class="flex gap-3">
+          <span class="font-bold text-[#2c5e3b] min-w-[100px]" data-i18n="miss_1t"></span>
+          <span class="text-gray-600" data-i18n="miss_1d"></span>
+        </li>
+        <li class="flex gap-3">
+          <span class="font-bold text-[#2c5e3b] min-w-[100px]" data-i18n="miss_2t"></span>
+          <span class="text-gray-600" data-i18n="miss_2d"></span>
+        </li>
+        <li class="flex gap-3">
+          <span class="font-bold text-[#2c5e3b] min-w-[100px]" data-i18n="miss_3t"></span>
+          <span class="text-gray-600" data-i18n="miss_3d"></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="bg-red-50 py-16 px-4 border-y border-red-200">
+  <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-lg border-l-8 border-red-600">
+    <h2 class="text-2xl font-bold text-red-800 mb-6" data-i18n="warn_title"></h2>
+    <ul class="space-y-4">
+      <li class="flex items-start gap-3">
+        <i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i>
+        <span class="text-gray-700" data-i18n="warn_1"></span>
+      </li>
+      <li class="flex items-start gap-3">
+        <i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i>
+        <span class="text-gray-700" data-i18n="warn_2"></span>
+      </li>
+      <li class="flex items-start gap-3">
+        <i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i>
+        <span class="text-gray-700" data-i18n="warn_3"></span>
+      </li>
+      <li class="flex items-start gap-3">
+        <i class="fa-solid fa-circle-exclamation text-red-600 mt-1"></i>
+        <span class="text-gray-700" data-i18n="warn_4"></span>
+      </li>
+    </ul>
+  </div>
+</section>
