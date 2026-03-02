@@ -3,24 +3,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{{ page.title }} | {{ site.title }}</title>
+  <title>{{ page.title }}{% if site.title %} | {{ site.title }}{% endif %}</title>
 
-  <!-- CSS local -->
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
+  <!-- CSS local (corrigé: ton repo a style.css) -->
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- (Optionnel) Tailwind CDN si tu le gardes -->
+  <!-- Tailwind CDN (optionnel) -->
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
   {% include header.html %}
+
   <main>
     {{ content }}
   </main>
+
   {% include footer.html %}
+
+  <!-- MODAL (ne garder QUE si le fichier existe dans _includes/) -->
+  {% comment %}
   {% include modal.html %}
-  <script src="{{ site.baseurl }}/assets/js/main.js"></script>
+  {% endcomment %}
+
+  <!-- JS local (corrigé: ton repo a app.js; sinon remets main.js si tu l’as vraiment) -->
+  <script src="{{ '/assets/js/app.js' | relative_url }}"></script>
 </body>
 </html>
