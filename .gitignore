@@ -1,0 +1,35 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swo
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# Local env
+.env
+.env.local
+
+# Cache
+.cache/
+.temp/
+
+# Build
+dist/
+build/
+*.tgz
+
+# IDE
+.project
+.classpath
+.settings/
