@@ -1,21 +1,22 @@
-<header class="site-header">
-    <div class="container">
-        <div class="header-content">
-            <div class="logo">
-                <a href="/{{ page.lang }}/">
-                    <i class="fas fa-leaf"></i>
-                    <span>{{ site.data.translations[page.lang].site_title }}</span>
-                </a>
+<header class="bg-[#2c5e3b] text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-20">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-leaf text-3xl text-[#c5a059]"></i>
+                <span class="font-black text-xl">{{ site.title }}</span>
             </div>
 
+            <!-- Navigation -->
             {% include navigation.html %}
-            {% include language-switcher.html %}
-            
-            <button class="mobile-menu-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
+
+            <!-- Language switcher -->
+            <div class="flex items-center gap-1 bg-[#1e4028] rounded-lg p-1">
+                <a href="/fr/" class="px-3 py-1.5 rounded-md text-sm font-bold {% if page.lang == 'fr' %}bg-[#c5a059] text-[#1e4028]{% endif %}">FR</a>
+                <a href="/en/" class="px-3 py-1.5 rounded-md text-sm font-bold {% if page.lang == 'en' %}bg-[#c5a059] text-[#1e4028]{% endif %}">EN</a>
+                <a href="/ht/" class="px-3 py-1.5 rounded-md text-sm font-bold {% if page.lang == 'ht' %}bg-[#c5a059] text-[#1e4028]{% endif %}">HT</a>
+            </div>
         </div>
     </div>
 </header>
-        
-       
