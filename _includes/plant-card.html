@@ -1,50 +1,22 @@
 {% assign plante = include.plante %}
-{% assign lang = include.lang | default: 'fr' %}
+{% assign lang = page.lang | default: 'fr' %}
+{% assign image_url = plante.image | default: '/assets/images/placeholder.jpg' %}
 
-<div class="plant-card bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100 flex flex-col group cursor-pointer"
-     onclick="showPlantDetails({{ plante.id }})"
-     data-plant-id="{{ plante.id }}">
-    
-    <div class="h-48 overflow-hidden relative">
-        <img src="{{ plante.image | relative_url }}" 
-             alt="{{ plante.nom_scientifique }}" 
-             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-             loading="lazy">
-        
-        <span class="absolute top-3 right-3 text-[10px] font-bold px-3 py-1.5 rounded-full 
-                     {% if plante.statut[lang] contains 'Commune' or plante.statut[lang] contains 'Common' or plante.statut[lang] contains 'Komen' %}
-                     bg-green-100 text-green-800 border-green-300
-                     {% elsif plante.statut[lang] contains 'Rare' or plante.statut[lang] contains 'Menacée' or plante.statut[lang] contains 'Endangered' or plante.statut[lang] contains 'An danje' %}
-                     bg-red-100 text-red-800 border-red-300
-                     {% elsif plante.statut[lang] contains 'Endémique' or plante.statut[lang] contains 'Endemic' or plante.statut[lang] contains 'Andemik' %}
-                     bg-purple-100 text-purple-800 border-purple-300
-                     {% else %}
-                     bg-gray-100 text-gray-800 border-gray-300
-                     {% endif %} 
-                     border shadow-sm uppercase tracking-wide">
-            {{ plante.statut[lang] }}
-        </span>
-        
-        {% if plante.toxicite %}
-        <span class="absolute top-3 left-3 text-[10px] font-bold px-3 py-1.5 rounded-full bg-red-600 text-white border shadow-sm">
-            ⚠️ 
-            {% if lang == 'fr' %}TOXIQUE
-            {% elsif lang == 'en' %}TOXIC
-            {% else %}POZON{% endif %}
-        </span>
-        {% endif %}
-    </div>
-    
-    <div class="p-5 flex-grow">
-        <span class="text-[10px] font-bold text-[#c5a059] uppercase tracking-widest">{{ plante.famille }}</span>
-        <h3 class="text-lg font-extrabold text-gray-900 mb-1 italic">{{ plante.nom_scientifique }}</h3>
-        <p class="text-sm text-gray-500 font-medium mb-3">{{ plante.noms[lang] }}</p>
-        
-        <div class="space-y-2 text-xs text-gray-700">
-            <div class="flex items-start gap-2">
-                <i class="fa-solid fa-heart-pulse text-[#2c5e3b] mt-1 w-4"></i>
-                <div>{{ plante.systemes[lang] }}</div>
+<div class="plant-card">
+    <a href="/{{ lang }}/atlas/plantes/{{ plante.id }}.html">
+        <div class="plant-image">
+            <img src="{{ image_url }}" alt="{{ plante.nom_scientifique }}" 
+                 onerror="this.src='/assets/images/placeholder.jpg'">
+        </div>
+        <div class="plant-info">
+            <span class="family">{{ plante.famille }}</span>
+            <h3>{{ plante.nom_scientifique }}</h3>
+            <p class="common-name">{{ plante.noms[lang] }}</p>
+            <div class="systemes">
+                {% for systeme in plante.systemes[lang] limit:2 %}
+                    <span class="badge">{{ systeme }}</span>
+                {% endfor %}
             </div>
         </div>
-    </div>
+    </a>
 </div>
