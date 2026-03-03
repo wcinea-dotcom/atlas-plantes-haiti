@@ -1,51 +1,30 @@
-// --- SECTION : CONSERVATION ---
-const conservationContent = {
-    statuts_plantes: {
-        title: "Statuts de Conservation et Origine",
-        content: `
-            <div class="prose prose-lg text-gray-600 max-w-none">
-                <p>Comprendre l'origine d'une plante est vital pour préserver la biodiversité d'Haïti.</p>
-                <div class="grid md:grid-cols-3 gap-4 mt-6">
-                    <div class="bg-white border-t-4 border-purple-500 p-4 rounded shadow-sm">
-                        <h4 class="font-bold text-purple-700">Endémique</h4>
-                        <p class="text-sm">Ne pousse naturellement <strong>que</strong> dans la région (ex: Bwa Nègès). Priorité absolue de conservation.</p>
-                    </div>
-                    <div class="bg-white border-t-4 border-green-500 p-4 rounded shadow-sm">
-                        <h4 class="font-bold text-green-700">Native</h4>
-                        <p class="text-sm">Présente naturellement dans la région Caraïbe avant l'arrivée des Européens.</p>
-                    </div>
-                    <div class="bg-white border-t-4 border-orange-500 p-4 rounded shadow-sm">
-                        <h4 class="font-bold text-orange-700">Exotique / Invasives</h4>
-                        <p class="text-sm">Introduite d'autres continents. Certaines (invasives) menacent la flore locale (ex: Neem).</p>
-                    </div>
-                </div>
-            </div>
-        `
-    },
-    cons_especes: {
-        title: "Conservation des Espèces",
-        content: `
-            <div class="prose prose-lg text-gray-600 max-w-none">
-                <p>La protection des espèces menacées (comme le Gayak ou l'Acajou) implique :</p>
-                <ul>
-                    <li><strong>L'éducation des cueilleurs :</strong> Apprendre à récolter les feuilles sans tuer l'arbre (éviter l'arrachage systématique des racines ou de l'écorce).</li>
-                    <li><strong>La réglementation :</strong> Respecter les lois haïtiennes sur les espèces protégées.</li>
-                    <li><strong>La création de sanctuaires :</strong> Multiplication en pépinière pour relâcher dans la nature.</li>
-                </ul>
-            </div>
-        `
-    },
-    production: {
-        title: "Production & Propagation",
-        content: `
-            <div class="prose prose-lg text-gray-600 max-w-none">
-                <p>Pour fournir les herboristeries sans détruire la nature sauvage, la propagation est essentielle :</p>
-                <ul class="space-y-2">
-                    <li>🌱 <strong>Semis :</strong> Reproduction par graines (maintient la diversité génétique).</li>
-                    <li>🌿 <strong>Bouturage :</strong> Clonage d'une branche pour une croissance rapide.</li>
-                    <li>🌳 <strong>Marcottage :</strong> Enracinement d'une branche encore attachée à l'arbre mère.</li>
-                </ul>
-            </div>
-        `
-    }
-};
+---
+layout: default
+title: "Conservation et Statuts"
+permalink: /conservation/
+---
+<section class="py-16 px-4 bg-white">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-black text-[#1e4028] mb-8">Statuts de Conservation et Origine</h1>
+    
+    <div class="grid gap-8">
+      <div class="p-6 bg-green-50 rounded-2xl border-l-4 border-green-600">
+        <h2 class="text-2xl font-bold mb-2">Endémique</h2>
+        <p>Ne pousse naturellement <strong>que</strong> dans la région (ex: Bwa Nègès). Priorité absolue de conservation.</p>
+      </div>
+
+      <div class="p-6 bg-blue-50 rounded-2xl border-l-4 border-blue-600">
+        <h2 class="text-2xl font-bold mb-2">Native</h2>
+        <p>Présente naturellement dans la région Caraïbe avant l'arrivée des Européens.</p>
+      </div>
+
+      <div class="p-6 bg-red-50 rounded-2xl border-l-4 border-red-600">
+        <h2 class="text-2xl font-bold mb-2">Conservation des Espèces</h2>
+        <ul class="list-disc pl-5 mt-2 space-y-2">
+          <li><strong>L'éducation des cueilleurs :</strong> Apprendre à récolter sans tuer l'arbre.</li>
+          <li><strong>La réglementation :</strong> Respecter les lois sur les espèces protégées.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
