@@ -1,11 +1,24 @@
-<script src="{{ '/assets/js/translations.js' | relative_url }}"></script>
-  
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: 'fr' }}" class="scroll-smooth">
+<head>
+  {% include head.html %}
+</head>
+<body class="bg-gray-50 text-gray-800 antialiased flex flex-col min-h-screen">
+
+  {% include header.html %}
+
+  <main class="flex-grow">
+    {{ content }}
+  </main>
+
+  {% include footer.html %}
+
+  <script src="{{ '/assets/js/translations.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/plantes-data.js' | relative_url }}"></script>
   <script src="{{ '/assets/js/ressources-data.js' | relative_url }}"></script>
-  
   <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
-
   <script>
     window.showPlantDetails = showPlantDetails;
   </script>
 </body>
+</html>
