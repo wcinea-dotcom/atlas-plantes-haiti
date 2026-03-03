@@ -61,4 +61,4 @@ const plantesData = [
         statut: {fr: "Cultivée", en: "Cultivated", ht: "Kiltive"},
         origine: {fr: "Exotique", en: "Exotic", ht: "Egzotik"}
     }
-]; // Très important de bien fermer ici
+];
